@@ -1,0 +1,140 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/1b79c4b552.js" crossorigin="anonymous"></script>
+        <link rel="favicon" href="favicon.ico">
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="index.css">
+        <script src="jquery-3.4.1.min.js"></script>
+        <title>Project Manager - To manage your projects</title>
+    </head>
+    <body>
+        <div class="site">
+
+            <!-- ------------------  Header ------------------ -->
+            <div class="header">
+                <div class="header-top">
+                    <div class="logo">
+                        <img src="img/Logo.png">
+                        <a class="left" title="Home" href="../index.html">roject<a class="right" title="Home" href="../index.html">Manager</a></a>
+                    </div>
+                    <div class="search-bar">
+                        <input placeholder="Project Research" type="text">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+                <div class="header-bottom">
+                    <div class="menus">
+                        <div class="menu-item">
+                            <span>New Project</span>
+                        </div>
+                        <div class="options">
+                            <span>Import Data:</span>
+                            <input name="backupFile" type="file">
+                            <i title="Download data" class="fa fa-download"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ------------------  Content ------------------ -->
+            <div class="content">
+
+                <!-- -------------  Content LEFT ------------- -->
+                <div class="content-left">
+                <!--
+                    <div class="project-item">
+                        <div class="project-item-top">
+                            <span>This is my first project</span>
+                            <span class="price">1300 <span>R$</span></span>
+                        </div>
+                        <i class="fa fa-chevron-right"></i>
+                        <div class="project-item-bottom">
+                            <span>My last project</span>
+                            <span class="time">00:00:00</span>
+                        </div>
+                    </div>
+                -->
+                </div>
+
+                <!-- --------------  Content RIGHT ------------ -->
+                <div class="content-right">
+                    <div class="project-name">
+                        <h3>Project Name</h3>
+                        <i class="fa fa-times btn-close"></i>
+                    </div>
+                    <p class="project-description">Lorem Ipsum é simplesmente uma simulação de texto da 
+                        indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI,
+                         quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos</p>
+                    <div class="timer">
+                        <div class="timer-functions">
+                            <button class="btn btn-primary btn-play-pause"><i class="fa fa-play"></i>Start</button>
+                            <button class="btn btn-primary btn-stop" disabled><i class="fa fa-stop"></i>Stop</button>
+                        </div>
+                        <div class="timer-register">
+                            <span class="duration">Duration: <span>00:00:00</span></span>
+                            <span class="price"><span>R$</span> 1300</span>
+                        </div>
+                    </div>
+                    <div class="tasks-list">
+                        <h3>Tarefas</h3>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                        <div class="task-item">
+                            <span>Task Name</span>
+                            <span>00:00:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- ------------------ Modal ------------------ -->
+
+            <div class="background-modal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h2 class="title">New Project</h2>
+                        <i class="fa fa-times btn-close"></i>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/app-data.js"></script>
+        <script src="js/utilits.js"></script>
+        <script src="js/modal.js"></script>
+        <script src="js/project-details.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

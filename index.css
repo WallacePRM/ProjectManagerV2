@@ -1,0 +1,474 @@
+
+html ,
+body {
+    font-family: 'Baloo Paaji 2', cursive;
+    margin: 0;
+    font-size: 1rem;
+    color: #eee;
+    background-color: #23282d;
+}
+
+.site {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------------ Universal------------------ */
+
+.btn-primary {
+    border: none;
+    border-radius: 0;
+    padding: 5px 10px;
+    color: white;
+    background-color: #444;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn[disabled] {
+    cursor: not-allowed;
+    background-color: #777;
+}
+
+.btn[disabled]:hover {
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.btn-close {
+    color: #888;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    color: rgb(233, 112, 112);
+}
+
+.disabled {
+    pointer-events: none !important;
+}
+
+/* ----------- Mobile ----------- */
+
+@media(min-width: 760px) {
+
+  /* width */
+    ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+
+/* ------------------ Header ------------------ */
+
+.site .header {
+    font-size: 1.2rem;
+    padding: 20px;
+}
+
+/* ----------- Header TOP ----------- */
+
+.header-top {
+    display: flex;
+    align-items: center;
+}
+
+.header-top .logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.header-top .logo img {
+    height: 50px;
+    margin-right: 5px;
+}
+
+.header-top .logo a {
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    font-weight: normal;
+    text-transform: uppercase;
+    outline: none;
+    color: #eee;
+    text-decoration: none;
+    font-size: 1.7rem;
+}
+
+.header-top .logo .left {
+    padding-right: 10px;
+}
+
+.header-top .logo .right {
+    border-bottom: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-bar {
+    background-color: #191e23;
+    color: #b4b9be;
+}
+
+.search-bar input {
+    background-color: transparent;
+    border: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    color: #b4b9be;
+    font-size: 12px;
+    outline: none;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+}
+
+.search-bar i {
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+/* ------------- Header BOTTOM ------------- */
+
+.header-bottom .menus {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.header-bottom .menus input {
+    color: transparent;
+    max-width: 90px;
+    margin: 0 10px;
+    margin-right: 40px;
+    outline: none;
+}
+
+.header-bottom .menus i {
+    cursor: pointer;
+    color: #eee;
+    font-size: 1.2rem;
+}
+
+.header-bottom .menus i:hover {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.596);
+}
+.header-bottom .menu-item {
+    margin-right: 20px;
+}
+
+.header-bottom .menu-item span {
+    cursor: pointer;
+}
+
+.header-bottom .menu-item span:hover {
+    color: rgb(79, 185, 218);
+}
+
+/* ------------------ Content ------------------ */
+
+.site .content {
+    flex: 1;
+    background-color: white;
+    display: flex;
+    overflow: hidden;
+}
+
+.content h3,
+.content h2 {
+    margin: 0;
+}
+
+/* ------------- Content LEFT ------------- */
+
+.content-left {
+    flex: 1;
+    color: #444;
+    overflow-x: auto;
+}
+
+.content-left .project-item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    border-bottom: 1px solid #bbb;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.content-left .project-item:hover {
+    background-color: #eee;
+}
+
+.content-left .project-item .fa-chevron-right {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    font-size: 1.1rem;
+}
+
+.content-left .project-item-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    padding-right: 40px;
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.content-left .project-item-top .project-name {
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-left .project-item-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    padding-right: 40px;
+}
+
+.content-left .project-item-bottom .time {
+    font-size: 1.2rem;
+}
+
+/* ------------ Content RIGHT -------------- */
+
+.content-right {
+    width: 0;
+    color: #444;
+    border-left: 1px solid #bbb;
+    overflow: hidden;
+    transition: width 0.4s ease-in;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-right .project-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.content-right .project-description {
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0 20px;
+    padding-bottom: 10px;
+    color: #666;
+}
+
+.content-right .btn {
+    margin-right: 20px;
+}
+
+.content-right .btn:hover,
+.content-right .btn:focus {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.459);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.425);
+}
+
+.content-right .btn i {
+    margin-right: 10px;
+}
+
+.content-right .timer-functions,
+.content-right .timer-register {
+    padding: 5px 20px;
+}
+
+.content-right .timer-register {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content-right .timer-register span {
+    font-size: 1.2rem;
+}
+
+.content-right .timer-register .duration span{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.content-right .timer-register .price {
+    font-size: 1.4rem;
+    color: rgb(222, 91, 91);
+}
+
+.content-right .tasks-list {
+    flex: 1;
+    overflow-x: auto;    
+}
+
+.content-right .tasks-list h3 {
+    padding: 10px 20px;
+    border-bottom: 1px solid #bbb;
+}
+
+.content-right .task-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #bbb;
+    padding: 10px 30px;
+}
+
+.content.show .content-right {
+    width: 400px;
+}
+
+/* ------------------ Modal ------------------ */
+
+.background-modal {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.466); 
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease-out;
+}
+
+.background-modal.show {
+    opacity: 1;
+    pointer-events: inherit;
+}
+
+.background-modal .modal {
+    color: #444;
+    margin-top: 100px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.205);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.background-modal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #23282d;
+    color: white;
+    padding: 0 20px;
+}
+
+.background-modal .modal-header h2 {
+    margin: 0;
+    font-weight: normal;
+}
+
+.background-modal .modal-body {
+    padding: 10px 20px;
+    background-color: white;
+}
+
+.background-modal .modal-body .row {
+    padding: 5px 0;
+}
+
+.background-modal .modal-body .row label {
+    font-size: 1.1rem;
+}
+
+.background-modal .modal-body input {
+    border: 0;
+    border-bottom: 1px solid #bbb;
+    outline: none;
+    font-size: 1rem;
+    color: #444;
+    padding: 5px 10px;
+    width: 100%;
+} 
+
+.background-modal .modal-body .btn {
+    margin-top: 5px;
+    font-size: 1rem;
+    padding: 10px 20px;
+}
+
+.background-modal .modal-body .btn:hover,
+.background-modal .modal-body .btn:focus {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.459);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.425);
+}
+
+/* ------------------ Mobile ------------------ */
+
+@media(max-width: 760px) {
+
+    .header-top {
+        justify-content: center;
+    }
+    
+    .header-top .logo {
+        display: none;
+    }
+
+   .header-top .search-bar {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       margin-bottom:  10px;
+       width: 100%;
+   }
+
+   .header-top .search-bar input {
+       padding: 10px;
+   }
+
+   .header-bottom .options span {
+       display: none;
+   }
+
+   .content {
+       position: relative;
+   }
+
+   .content-left {
+        width: 100%;
+        transition: width 0.4s ease-in;
+   }
+
+   .content-right {
+        position: absolute;
+        left: 100%;
+        overflow: hidden;
+        transition: left 0.4s ease-in;
+        background-color: white;
+        height: 100%;
+        width: 100%;
+   }
+
+   .content.show .content-right {
+        left: 0;
+        width: 100%;
+    }
+}
+
