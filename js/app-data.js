@@ -18,6 +18,7 @@ var projects = [];
 
 function AppData() {
 
+    var _this = this;
 
     this.saveData = function() {
 
@@ -64,7 +65,7 @@ function AppData() {
             project.id = projects.length;
             projects.push(project);
 
-            this.saveData();
+            _this.saveData();
             resolve();
         });
 
@@ -90,7 +91,7 @@ function AppData() {
 
                 currentProject.tasks.push(task);
 
-                this.saveData();
+                _this.saveData();
                 resolve(task);
             }
             else {
@@ -119,7 +120,7 @@ function AppData() {
                 date: new Date().toISOString()
             });
         
-            this.saveData();
+            _this.saveData();
             resolve();
         });   
 

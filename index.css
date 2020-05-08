@@ -50,7 +50,7 @@ body {
     pointer-events: none !important;
 }
 
-/* ----------- Mobile ----------- */
+/* ----------- Scroll Bar ----------- */
 
 @media(min-width: 760px) {
 
@@ -74,7 +74,6 @@ body {
     background: #555;
   }
 }
-
 
 /* ------------------ Header ------------------ */
 
@@ -204,6 +203,11 @@ body {
     overflow-x: auto;
 }
 
+.content-left .empty-msg {
+    font-size: 2rem;
+    text-align: center;
+}
+
 .content-left .project-item {
     display: flex;
     position: relative;
@@ -272,7 +276,7 @@ body {
 }
 
 .content-right .project-description {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     margin: 0;
     padding: 0 20px;
     padding-bottom: 10px;
@@ -298,20 +302,18 @@ body {
     padding: 5px 20px;
 }
 
-.content-right .timer-register {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .content-right .timer-register span {
     font-size: 1.2rem;
 }
 
+.content-right .timer-register .duration {
+    display: flex;
+    justify-content: space-between;
+}
+
 .content-right .timer-register .duration span{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    margin-left: 20px;
 }
 
 .content-right .timer-register .price {
@@ -395,9 +397,11 @@ body {
 
 .background-modal .modal-body .row label {
     font-size: 1.1rem;
+    display: block;
 }
 
-.background-modal .modal-body input {
+.background-modal .modal-body input,
+.background-modal .modal-body textarea {
     border: 0;
     border-bottom: 1px solid #bbb;
     outline: none;
@@ -406,6 +410,10 @@ body {
     padding: 5px 10px;
     width: 100%;
 } 
+
+.background-modal .modal-body textarea {
+    font-size: 1.2rem;
+}
 
 .background-modal .modal-body .btn {
     margin-top: 5px;

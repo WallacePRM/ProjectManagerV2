@@ -22,8 +22,12 @@ function ProjectDetails() {
             $contentRight.find('.timer-register .price').html('');
         }
 
-        $contentRight.find('.timer-register .duration').html(`Duration:<span>${formatTime(projectTime)}</span>`);
-       
+        if (project.estimatedTime !== '') {
+            $contentRight.find('.timer-register .duration').html(`${project.estimatedTime}<span>${formatTime(projectTime)}</span>`);
+        }   
+        else {
+            $contentRight.find('.timer-register .duration').html(`<span>${formatTime(projectTime)}</span>`);
+        }
         
         $contentRight.find('.tasks-list').html(`
             <h3>Tarefas</h3>

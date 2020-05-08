@@ -16,11 +16,15 @@ function handleNewProject() {
                 </div>
                 <div class="row">
                     <label>Project description:</label>
-                    <input name="project-description" placeholder="ex: news about: politics, celebrities, entertainment..." type="text">
+                    <textarea name="project-description" placeholder="ex: news about: politics, celebrities, entertainment..." type="text"></textarea>
                 </div>
                 <div class="row">
                     <label>Project value:</label>
                     <input name="project-price" placeholder="ex: 750" type="number">
+                </div>
+                <div class="row">
+                    <label>Estimatedd Time:</label>
+                    <input name="project-estimated-time" placeholder="ex: HH:MM" type="text">
                 </div>
                 <div class="row">
                     <button class="btn btn-primary">Create</button>
@@ -50,11 +54,13 @@ function handleCreateProject() {
     var projectName = $modal.find('[name="project-name"]').val();
     var projectDescription = $modal.find('[name="project-description"]').val();
     var projectPrice = $modal.find('[name="project-price"]').val();
+    var estimatedTime = $modal.find('[name="project-estimated-time"]').val();
 
     var project = {
         name: projectName,
         description: projectDescription,
         price: projectPrice,
+        estimatedTime: estimatedTime,
         tasks: []
     };
 
@@ -122,7 +128,6 @@ function handleImportBackup(event) {
     reader.readAsText(file);
 }
 
-
 /* ------------------ Functions ------------------ */
 
 function loadProjects() {
@@ -162,6 +167,8 @@ function addProjectHTML(project) {
     `);
 
     $('.content-left').append($projectItem);
+    $('.content-left .empty-msg').remove();
+
     $projectItem.click(handleShowProjectDetails);
 }
 
