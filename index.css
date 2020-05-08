@@ -206,6 +206,8 @@ body {
 .content-left .empty-msg {
     font-size: 2rem;
     text-align: center;
+    width: 100%;
+    white-space: pre-wrap;
 }
 
 .content-left .project-item {
@@ -309,10 +311,11 @@ body {
 .content-right .timer-register .duration {
     display: flex;
     justify-content: space-between;
+    font-size: 1.1rem;
 }
 
 .content-right .timer-register .duration span{
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 

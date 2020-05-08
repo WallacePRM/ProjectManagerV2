@@ -23,7 +23,7 @@ function ProjectDetails() {
         }
 
         if (project.estimatedTime !== '') {
-            $contentRight.find('.timer-register .duration').html(`${project.estimatedTime}<span>${formatTime(projectTime)}</span>`);
+            $contentRight.find('.timer-register .duration').html(`Estimated Time: ${project.estimatedTime}<span>${formatTime(projectTime)}</span>`);
         }   
         else {
             $contentRight.find('.timer-register .duration').html(`<span>${formatTime(projectTime)}</span>`);
