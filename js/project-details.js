@@ -97,8 +97,6 @@ function ProjectDetails() {
                 
                 newTask.show();
 
-                $('.content-left').addClass('disabled');
-                $('.content-right .fa-times').addClass('disabled');
                 $('.modal-new-task .btn').click(handleCreateTask);
             }
             else {
@@ -150,6 +148,9 @@ function ProjectDetails() {
             $('.btn-stop').removeAttr('disabled');
 
             $(`[data-id="${currentProject.id}"] .project-item-bottom span`).html(taskName);
+
+            $('.content-left').addClass('disabled');
+            $('.content-right .fa-times').addClass('disabled');
 
             playPause('play', task, currentProject);
         });
