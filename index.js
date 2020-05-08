@@ -122,6 +122,7 @@ function handleImportBackup(event) {
     reader.readAsText(file);
 }
 
+
 /* ------------------ Functions ------------------ */
 
 function loadProjects() {
