@@ -282,14 +282,33 @@ body {
     padding: 10px 20px;
 }
 
+.content-right .project-name-left {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.content-right .project-name-left i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
 .content-right .project-description {
+    transition: max-height 0.25s ease-in;
     font-size: 1.3rem;
     margin: 0;
     padding: 0 20px;
     padding-bottom: 10px;
     color: #666;
     white-space: pre-wrap;
-    width: 100%;
+    cursor: default;
+    max-height: 1000px;
+}
+
+.content-right .project-description.hidden {
+    transition: max-height 0.4s ease-out;
+    max-height: 10px;
+    overflow: hidden;   
 }
 
 .content-right .btn {
@@ -347,6 +366,10 @@ body {
     flex-direction: column;
     border-bottom: 1px solid #bbb;
     padding: 10px 30px;
+}
+
+.content-right .task-time {
+    font-size: 1.1rem;
 }
 
 .content.show .content-right {

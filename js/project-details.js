@@ -48,6 +48,7 @@ function ProjectDetails() {
         $('.btn-play-pause').click(handlePlayPause);
         $('.btn-stop').click(handleStop);
         $('.content-right .fa-times').click(handleHiddenProjectDetails);
+        $('.content-right .project-name-left').click(handleHiddenDescription);
     }
 
     function createTaskHTML(task) { 
@@ -167,6 +168,25 @@ function ProjectDetails() {
     function handleHiddenProjectDetails() {
 
         $('.content').removeClass('show');
+    }
+
+    function handleHiddenDescription() {
+
+        var $projectDescription = $('.content-right .project-description');
+        var $icon = $('.content-right .project-name-left i');
+        var descriptionAttr = $projectDescription.attr('class');
+
+        $projectDescription.toggleClass('hidden');
+
+        if (descriptionAttr === 'project-description hidden') {
+            $icon.removeAttr('class');
+            $icon.attr('class', 'fa fa-caret-down')
+        }
+        else {
+            $icon.removeAttr('class');
+            $icon.attr('class', 'fa fa-caret-right')
+        }
+
     }
 
     /* ------------------ Initial ------------------ */
