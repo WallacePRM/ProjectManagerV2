@@ -137,23 +137,31 @@ function ProjectDetails() {
 
         var taskName = $('.modal-new-task [name="task-name"]').val();
 
-        var promise = appData.createTask(taskName, currentProject.id);
+        if (taskName !== '') {
 
-        promise.then(function(task) {
+            $('.modal-new-task [name="task-name"]').removeClass('error');
 
-            newTask.hide();
-            createTaskHTML(task);
+            var promise = appData.createTask(taskName, currentProject.id);
 
-            $('.btn-play-pause').html('<i class="fa fa-pause"></i>Pause');
-            $('.btn-stop').removeAttr('disabled');
+            promise.then(function(task) {
 
-            $(`[data-id="${currentProject.id}"] .project-item-bottom span`).html(taskName);
+                newTask.hide();
+                createTaskHTML(task);
 
-            $('.content-left').addClass('disabled');
-            $('.content-right .fa-times').addClass('disabled');
+                $('.btn-play-pause').html('<i class="fa fa-pause"></i>Pause');
+                $('.btn-stop').removeAttr('disabled');
 
-            playPause('play', task, currentProject);
-        });
+                $(`[data-id="${currentProject.id}"] .project-item-bottom span`).html(taskName);
+
+                $('.content-left').addClass('disabled');
+                $('.content-right .fa-times').addClass('disabled');
+
+                playPause('play', task, currentProject);
+            });
+        }
+        else {
+            $('.modal-new-task [name="task-name"]').addClass('error');
+        }
     }
     
     function handleHiddenProjectDetails() {

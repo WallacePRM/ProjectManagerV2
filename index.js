@@ -12,19 +12,19 @@ function handleNewProject() {
             <div class="modal-new-project">
                 <div class="row">
                     <label>Project name:</label>
-                    <input name="project-name" placeholder="ex: news site" type="text">
+                    <input name="project-name" type="text">
                 </div>
                 <div class="row">
                     <label>Project description:</label>
-                    <textarea name="project-description" placeholder="ex: news about: politics, celebrities, entertainment..." type="text"></textarea>
+                    <textarea name="project-description" type="text"></textarea>
                 </div>
                 <div class="row">
                     <label>Project value:</label>
-                    <input name="project-price" placeholder="ex: 750" type="number">
+                    <input name="project-price" type="number">
                 </div>
                 <div class="row">
                     <label>Estimatedd Time:</label>
-                    <input name="project-estimated-time" placeholder="ex: HH:MM" type="text">
+                    <input name="project-estimated-time" placeholder="HH:MM" type="text">
                 </div>
                 <div class="row">
                     <button class="btn btn-primary">Create</button>
@@ -35,6 +35,7 @@ function handleNewProject() {
 
     newProject.show();
     
+    $('[name="project-estimated-time"]').mask('00:00');    
     $('.modal-new-project .btn').click(handleCreateProject);
 }
 
@@ -56,44 +57,59 @@ function handleCreateProject() {
     var projectPrice = $modal.find('[name="project-price"]').val();
     var estimatedTime = $modal.find('[name="project-estimated-time"]').val();
 
-    var project = {
-        name: projectName,
-        description: projectDescription,
-        price: projectPrice,
-        estimatedTime: estimatedTime,
-        tasks: []
-    };
+    if (projectName !== '') {
 
-    var promise = appData.createProject(project);
+        $modal.find('[name="project-name"]').removeClass('error');
 
-    promise.then(function() {
+        var project = {
+            name: projectName,
+            description: projectDescription,
+            price: projectPrice,
+            estimatedTime: estimatedTime,
+            tasks: []
+        };
 
-        addProjectHTML(project);
-        newProject.hide();   
-    });
+        var promise = appData.createProject(project);
 
-    promise.catch(function(error) {
+        promise.then(function() {
+            addProjectHTML(project);
+            newProject.hide();   
+        });
 
-        showMsg(error);
-    });
+        promise.catch(function(error) {
+
+            showMsg(error);
+        });
+    }
+    else {
+        $modal.find('[name="project-name"]').addClass('error');
+    }
 }
 
 function handleFindProject() {
 
-    var search = $('.header .search-bar input').val();
+    var search = $('.header .search-bar input').val().toLowerCase();
     var projectList = $('.content-left .project-item').toArray();
+    var foundItens = false;
 
     for (var i = 0; i < projectList.length; i++) {
 
-        var projectName = $(projectList[i]).find('.project-name').html();
+        var projectName = $(projectList[i]).find('.project-name').html().toLowerCase();
 
         if (projectName.indexOf(search) === -1) {
-            
             $(projectList[i]).css('display', 'none');
         }
         else {
             $(projectList[i]).css('display', 'flex');
+            foundItens = true;
         }
+    }
+
+    if (foundItens) {
+        $('.content-left .empty-msg').css('display', 'none');
+    }
+    else {
+        $('.content-left .empty-msg').css('display', 'block');
     }
 }
 
@@ -104,7 +120,7 @@ function handleDownloadData() {
     var blob = new Blob([jsonProjects], {type: 'text/plan;charset=utf-8'});
     var url =  URL.createObjectURL(blob);
 
-    var $link = $(`<a href="${url}" download="Project_Manager_Backup.txt">download</a>`);
+    var $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
 
     $link[0].click();
 }
@@ -167,7 +183,7 @@ function addProjectHTML(project) {
     `);
 
     $('.content-left').append($projectItem);
-    $('.content-left .empty-msg').remove();
+    $('.content-left .empty-msg').css('display', 'none');
 
     $projectItem.click(handleShowProjectDetails);
 }
