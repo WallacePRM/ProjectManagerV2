@@ -26,7 +26,7 @@ function AppData() {
         localStorage.setItem('appData.projects', jsonProjects);
     }
 
-    function getProjectById(projectId) {
+    this.getProjectById = function(projectId) {
 
         var currentProject;
 
@@ -62,7 +62,7 @@ function AppData() {
 
         var promise = new Promise(function(resolve, reject) {
 
-            project.id = projects.length;
+            project.id = new Date().getTime();
             projects.push(project);
 
             _this.saveData();
@@ -76,12 +76,12 @@ function AppData() {
 
         var promise = new Promise(function(resolve, reject) {
 
-            var currentProject = getProjectById(projectId);
+            var currentProject = _this.getProjectById(projectId);
 
             if (currentProject) {
 
                 var task = {
-                    id: currentProject.tasks.length,
+                    id: new Date().getTime(),
                     name: taskName,
                     history: [{
                         action: 'play',
@@ -106,7 +106,7 @@ function AppData() {
 
         var promise = new Promise(function(resolve, reject) {
 
-            var project = getProjectById(projectId);
+            var project = _this.getProjectById(projectId);
 
             for (var i = 0; i < project.tasks.length; i++) {
 

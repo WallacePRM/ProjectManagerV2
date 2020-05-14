@@ -42,9 +42,11 @@ function handleNewProject() {
 function handleShowProjectDetails(event) {
 
     var $projectItem = $(event.currentTarget);
-    var i = $projectItem.attr('data-id');
-    var i = parseInt(i);
-    var project = projects[i];
+    var id = $projectItem.attr('data-id');
+
+    id = parseInt(id);
+
+    var project = appData.getProjectById(id);
 
     projectDetails.show(project);
 }
@@ -133,7 +135,9 @@ function handleImportBackup(event) {
 
     reader.onload = function() {
 
-        projects = JSON.parse(reader.result);
+        var importedProjects = JSON.parse(reader.result);
+
+        projects = projects.concat(importedProjects);
 
         appData.saveData();
         loadProjects();
@@ -148,6 +152,7 @@ function handleImportBackup(event) {
 
 function loadProjects() {
 
+    $('.content-left .project-item').remove();
     var promise = appData.getProjects();
 
     promise.then(function() {

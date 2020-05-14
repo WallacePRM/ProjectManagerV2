@@ -28,7 +28,7 @@ body {
 }
 
 .btn[disabled] {
-    cursor: not-allowed;
+    cursor: default;
     background-color: #777;
 }
 
