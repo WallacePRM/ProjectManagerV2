@@ -87,6 +87,10 @@ body {
     padding: 20px;
 }
 
+.site .header.disabled {
+    pointer-events: none;
+}
+
 /* ----------- Header TOP ----------- */
 
 .header-top {
@@ -298,16 +302,16 @@ body {
     font-size: 1.3rem;
     margin: 0;
     padding: 0 20px;
-    padding-bottom: 10px;
     color: #666;
     white-space: pre-wrap;
     cursor: default;
     max-height: 1000px;
+    word-break: break-all;
 }
 
 .content-right .project-description.hidden {
     transition: max-height 0.4s ease-out;
-    max-height: 10px;
+    max-height: 0px;
     overflow: hidden;   
 }
 
@@ -323,6 +327,10 @@ body {
 
 .content-right .btn i {
     margin-right: 10px;
+}
+
+.content-right .timer {
+    padding-top: 10px;
 }
 
 .content-right .timer-functions,

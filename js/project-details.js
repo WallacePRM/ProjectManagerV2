@@ -106,6 +106,7 @@ function ProjectDetails() {
                 $('.btn-stop').removeAttr('disabled');
                 $('.content-left').addClass('disabled');
                 $('.content-right .fa-times').addClass('disabled');
+                $('.site .header').addClass('disabled');
 
                 playPause('play', lastTask, currentProject);
             }
@@ -115,6 +116,7 @@ function ProjectDetails() {
             $('.btn-stop').attr('disabled', true);
             $('.content-left').removeClass('disabled');
             $('.content-right .fa-times').removeClass('disabled');
+            $('.site .header').removeClass('disabled');
 
             playPause('pause', lastTask, currentProject);
         }
@@ -130,6 +132,7 @@ function ProjectDetails() {
         $('.btn-stop').attr('disabled', true);
         $('.content-left').removeClass('disabled');
         $('.content-right .fa-times').removeClass('disabled');
+        $('.site .header').removeClass('disabled');
 
         stopInterval('stop', lastTask, currentProject.id);
     }
