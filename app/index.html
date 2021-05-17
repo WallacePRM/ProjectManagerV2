@@ -2,67 +2,82 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://kit.fontawesome.com/1b79c4b552.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/c80e9c889d.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" href="./img/favicon.ico">
         <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="libs/themify/themify-icons.css">
+        <link rel="stylesheet" href="css/utils.css">
         <link rel="stylesheet" href="index.css">
-        <script src="jquery-3.4.1.min.js"></script>
-        <title>Project Manager - To manage your projects</title>
+        <title>Project Manager V2 - Manage your projects</title>
     </head>
     <body>
+        <div class="options">
+            <!-- <a class="options-item" href="./index.html" ><i class="fas fa-home"></i>Home</a> -->
+            <a class="options-item" href="./session/index.html"><i class="fas ti-shift-left-alt"></i>Sign out</a>
+        </div>
+
+        <!-- ------------------  SITE ------------------ -->
         <div class="site">
 
-            <!-- ------------------  Header ------------------ -->
+            <!-- ------------------  HEADER ------------------ -->
             <div class="header">
                 <div class="header-top">
                     <div class="logo">
-                        <img src="img/Logo.png">
-                        <a class="left" title="Home" href="../index.html">roject<a class="right" title="Home" href="../index.html">Manager</a></a>
+                        <i class="btn-options ti-menu"></i>
+                        <div class="logo-name">
+                            <a class="left">Project</a>
+                            <a class="right">Manager</a>
+                            <span>V2</span>
+                        </div>
                     </div>
                     <div class="search-bar">
-                        <input placeholder="Project Research" type="text">
-                        <i class="fa fa-search"></i>
+                        <input placeholder="Project research" type="text">
+                        <i class="fas fa-search"></i>
                     </div>
                 </div>
                 <div class="header-bottom">
                     <div class="menus">
                         <div class="menu-item">
-                            <span>New Project</span>
+                            <span class="new-project">New project</span>
                         </div>
-                        <div class="options">
-                            <span>Import Backup:</span>
-                            <input name="backupFile" type="file">
-                            <i title="Download Backup" class="fa fa-download"></i>
-                        </div>
+                    </div>
+                    <div class="import-field">
+                        <span>Import backup:</span>
+                        <input name="backupFile" type="file">
+                        <i title="Download Backup" class="download fas fa-cloud-download-alt"></i>
                     </div>
                 </div>
             </div>
             
-            <!-- ------------------  Content ------------------ -->
+            <!-- ------------------  CONTENT ------------------ -->
             <div class="content">
 
-                <!-- -------------  Content LEFT ------------- -->
+                <!-- -------------  CONTENT LEFT ------------- -->
+
                 <div class="content-left">
-                    <pre class="empty-msg">No projects found</pre>
+                    <pre class="empty-msg">Not found</pre>
                 </div>
 
-                <!-- --------------  Content RIGHT ------------ -->
+                <!-- --------------  CONTENT RIGHT ------------ -->
+
                 <div class="content-right">
                     <div class="project-name">
                         <div class="project-name-left">
-                            <i class="fa fa-caret-down"></i>
+                            <i class="fas fa-caret-down"></i>
                             <h3>Project Name</h3>
                         </div>
-                        <i class="fa fa-times btn-close"></i>
+                        <i class="ti-close btn-close"></i>
                     </div>
                     <pre class="project-description">Lorem Ipsum é simplesmente uma simulação de texto da 
                         indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI,
                          quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos</pre>
                     <div class="timer">
                         <div class="timer-functions">
-                            <button class="btn btn-primary btn-play-pause"><i class="fa fa-play"></i>Start</button>
-                            <button class="btn btn-primary btn-stop" disabled><i class="fa fa-stop"></i>Stop</button>
+                            <button class="btn btn-primary btn-play-pause"><i class="fas fa-play"></i>Start</button>
+                            <button class="btn btn-primary btn-stop" disabled><i class="fas fa-stop"></i>Stop</button>
                         </div>
                         <div class="timer-register">
                             <span class="duration">00:00 <span>00:00:00</span></span>
@@ -75,45 +90,16 @@
                             <span>Task Name</span>
                             <span>00:00:00</span>
                         </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
                     </div>
                 </div>
             </div>
 
-             <!-- ------------------ Modal ------------------ -->
-
+            <!-- ------------------ MODAL ------------------ -->
             <div class="background-modal">
                 <div class="modal">
                     <div class="modal-header">
                         <h2 class="title">New Project</h2>
-                        <i class="fa fa-times btn-close"></i>
+                        <i class="ti-close btn-close"></i>
                     </div>
                     <div class="modal-body">
                         

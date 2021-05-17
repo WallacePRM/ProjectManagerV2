@@ -1,15 +1,15 @@
 
-var intervalId;
+let intervalId;
 
 function calcTime(history) {
 
-    var time = 0;
+    let time = 0;
 
     for (var i = 0; i < history.length; i++) {
 
         if (history[i].action === 'play') {
-            var d1 = new Date(history[i].date);
-            var d2;
+            let d1 = new Date(history[i].date);
+            let d2;
 
             if (history[i + 1] !== undefined) {
                 d2 = new Date(history[i + 1].date);
@@ -27,7 +27,7 @@ function calcTime(history) {
 
 function calcTimeProject(project) {
 
-    var projectTime = 0;
+    let projectTime = 0;
 
     for (var t = 0; t < project.tasks.length; t++) {
 
@@ -39,38 +39,38 @@ function calcTimeProject(project) {
 
 function formatTime(time) {
 
-    var hourTemp = time / 3600;
-    var hour = Math.trunc(hourTemp);
+    const hourTemp = time / 3600;
+    const hour = Math.trunc(hourTemp);
 
-    var minutesTemp = (hourTemp - hour) * 60;
-    var minutes =  Math.trunc(minutesTemp);
+    const minutesTemp = (hourTemp - hour) * 60;
+    const minutes =  Math.trunc(minutesTemp);
 
-    var seconds = Math.round((minutesTemp - minutes) * 60);
+    const seconds = Math.round((minutesTemp - minutes) * 60);
 
-    var hStr = hour.toString().padStart(2, '0');
-    var mStr = minutes.toString().padStart(2, '0');
-    var sStr = seconds.toString().padStart(2, '0');
+    const hStr = hour.toString().padStart(2, '0');
+    const mStr = minutes.toString().padStart(2, '0');
+    const sStr = seconds.toString().padStart(2, '0');
 
     return `${hStr}:${mStr}:${sStr}`;
 }
 
 function startInterval(project) {
 
-    var lastTaskIndice = project.tasks.length - 1;
-    var lastTask = project.tasks[lastTaskIndice];
+    const lastTaskIndice = project.tasks.length - 1;
+    const lastTask = project.tasks[lastTaskIndice];
 
     intervalId = setInterval(function() {
 
-        var time = calcTimeProject(project);
-        var timeFormated = formatTime(time);
+        let time = calcTimeProject(project);
+        let timeFormated = formatTime(time);
 
         $('.timer-register .duration span').html(timeFormated);
         $(`.content-left [data-id="${project.id}"]`).find('.time').html(`${timeFormated}`);
 
         // --------------------------------
 
-        var time = calcTime(lastTask.history);
-        var timeFormated = formatTime(time);
+        time = calcTime(lastTask.history);
+        timeFormated = formatTime(time);
 
         $(`[data-id="${lastTask.id}"] .task-time`).html(timeFormated);  
     },100);

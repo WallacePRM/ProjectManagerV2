@@ -1,0 +1,11 @@
+   		  
+      	 	 USER		  		
+        id(PK) | email | password |-------------------+
+      						      |
+						      |
+						  PROJECT
+				id(PK) | name | description | time | user_id(FK) |-------+
+											 |
+											 |
+											TASK
+									id(PK) | name | time | project_id(FK)

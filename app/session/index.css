@@ -1,0 +1,248 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Baloo Paaji 2', cursive;
+    font-size: 16px;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+    color: #666;
+}
+
+.site {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    cursor: default;
+}
+
+.creation-date {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    cursor: default;
+    text-align: center;
+}
+
+form {
+    margin: 0;
+}
+
+/* ------------------ CAROUSEL ------------------ */
+
+.carousel {
+    width: 450px;
+    overflow: hidden;
+}
+
+.screen {
+    display: flex;
+    overflow: hidden;
+    margin-left: -100%;
+    transition: margin-left 0.4s ease-in-out;
+}
+
+[data-show="login"] {
+    margin-left: -100%;
+}
+
+[data-show="register"] {
+    margin-left: -200%;
+}
+
+[data-show="recovery"] {
+    margin-left: 0;
+}
+
+/* ------------------ MODAL ------------------ */
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    min-width: 450px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+/* ------------------ MODAL HEADER ------------------ */
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column ;
+    padding: 20px 40px;
+    font-size: 1.5rem;
+}
+
+.modal-header h3 {
+    font-weight: normal;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+}
+
+.modal-header span {
+    color: #444;
+}
+
+/* ------------------ MODAL CONTENT ------------------ */
+
+.modal-content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+    min-height: 300px;
+}
+
+.content-item {
+    margin-bottom: 20px;
+}
+
+.content-item label {
+    position: absolute;
+    font-size: 0.9rem;
+}
+
+.content-item .label-email {
+    top: 8px;
+    left: 50px;
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.content-item .label-password {
+    top: 75px;
+    left: 50px;
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.content-item .label-confirm-password {
+    top: 145px;
+    left: 50px;
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+.content-item input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    outline: none;
+    color: #666;
+}
+
+.content-item:hover {
+    color: #1a73e8;
+}
+
+.content-item:hover input {
+    border-color: #1a73e8;
+}
+
+.content-item input:focus {
+    border-color: #1a73e8;
+}
+
+.modal-content .forgot-password {
+    color: #1a73e8;
+    cursor: pointer;
+}
+
+.forgot-password:hover {
+    opacity: 0.8;
+}
+
+.recover-field {
+    background-color: rgb(255, 255, 133);
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.recover-field i {
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+/* ------------------ MODAL FOOTER ------------------ */
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+}
+
+.modal-footer .btn-show-modal {
+    border: 1px solid #1a73e8;
+    border-radius: 3px;
+    color: #1a73e8;
+    font-size: 1rem;
+    background-color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn-show-modal:hover {
+    opacity: 0.9;
+}
+
+.modal-footer .btn-login {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    background-color: #444;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+}
+
+@media(max-width: 760px) {
+
+    .creation-date {
+        display: none;
+    }
+
+    .site {
+        align-items: normal;
+    }
+
+    .carousel {
+        width: 100%;
+    }
+
+    .modal {
+        flex: 1;
+        justify-content: center;
+        min-width: 100vw;
+        height: 100vh;
+        border: none;
+        padding: 0;
+    }
+
+    form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-content {
+        min-height: 0;
+    }
+}
