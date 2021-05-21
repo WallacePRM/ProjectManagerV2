@@ -75,7 +75,7 @@ function ProjectDetails() {
             if (lastTask !== undefined) {
 
                 const lastHistoryIndice = lastTask.history.length - 1;
-                var lastHistory = lastTask.history[lastHistoryIndice];
+                let lastHistory = lastTask.history[lastHistoryIndice];
             }
 
             if (currentProject.tasks.length === 0 || lastHistory.action === 'stop') {

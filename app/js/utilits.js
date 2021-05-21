@@ -5,7 +5,7 @@ function calcTime(history) {
 
     let time = 0;
 
-    for (var i = 0; i < history.length; i++) {
+    for (let i = 0; i < history.length; i++) {
 
         if (history[i].action === 'play') {
             let d1 = new Date(history[i].date);
@@ -29,7 +29,7 @@ function calcTimeProject(project) {
 
     let projectTime = 0;
 
-    for (var t = 0; t < project.tasks.length; t++) {
+    for (let t = 0; t < project.tasks.length; t++) {
 
         projectTime = projectTime + calcTime(project.tasks[t].history);
     }

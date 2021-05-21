@@ -1,5 +1,5 @@
 
-var projects = [];
+let projects = [];
 
 // projects.push({
 //     id: 1,
@@ -18,19 +18,19 @@ var projects = [];
 
 function AppData() {
 
-    var _this = this;
+    let _this = this;
 
     this.saveData = function() {
 
-        var jsonProjects = JSON.stringify(projects);
+        const jsonProjects = JSON.stringify(projects);
         localStorage.setItem('appData.projects', jsonProjects);
     }
 
     this.getProjectById = function(projectId) {
 
-        var currentProject;
+        let currentProject;
 
-            for (var i = 0; i < projects.length; i++) {
+            for (let i = 0; i < projects.length; i++) {
 
                 if (projects[i].id === projectId) {
                     currentProject = projects[i];
@@ -44,7 +44,7 @@ function AppData() {
 
     this.getProjects = function() {
 
-        var promise = new Promise(function(resolve, reject) {
+        const promise = new Promise(function(resolve, reject) {
 
             projects = JSON.parse(localStorage.getItem('appData.projects'));
             
@@ -60,7 +60,7 @@ function AppData() {
 
     this.createProject = function(project) {
 
-        var promise = new Promise(function(resolve, reject) {
+        const promise = new Promise(function(resolve, reject) {
 
             project.id = new Date().getTime();
             projects.push(project);
@@ -128,4 +128,4 @@ function AppData() {
     }
 }
 
-var appData = new AppData();
+let appData = new AppData();

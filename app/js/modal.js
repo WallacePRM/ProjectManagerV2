@@ -17,7 +17,7 @@ function Modal(options) {
 
     /* ------------------ Initial ------------------ */
 
-    var $modal = $('.background-modal .modal');
+    const $modal = $('.background-modal .modal');
 
     $modal.find('.title').html(options.title);
     $modal.find('.modal-body').html(options.content);

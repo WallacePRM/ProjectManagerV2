@@ -8,4 +8,11 @@
 											 |
 											 |
 											TASK
-									id(PK) | name | time | project_id(FK)
+									id(PK) | name | time | project_id(FK) | user_id(FK)
+
+Connection config
+Host: localhost
+Port: 5432
+User: postgres
+Password: masterkey
+Database: ProjectManagerV2
