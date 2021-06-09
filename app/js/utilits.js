@@ -31,7 +31,7 @@ function calcTimeProject(project) {
 
     for (let t = 0; t < project.tasks.length; t++) {
 
-        projectTime = projectTime + calcTime(project.tasks[t].history);
+        projectTime = projectTime + calcTime(project.tasks[t].history || []);
     }
 
     return projectTime;
@@ -76,21 +76,64 @@ function startInterval(project) {
     },100);
 }
 
-function playPause(action, currentTask, project) {
+async function playPause(action, currentTask, project) {
 
-    appData.addTaskHistory(action, project.id, currentTask.id);
+    try {
 
-    if (action === 'pause') {
-        clearInterval(intervalId);
+        const token = getToken();
+        await postHistory(action, project.id, currentTask.id, token);
+        project = (await getProjects(project.id, token))[0];
+
+        if (action === 'pause') {
+            clearInterval(intervalId);
+        }
+        else {
+            startInterval(project);
+        }
     }
-    else {
-        startInterval(project);
+    catch(error) {
+
+        console.error(error);
+
+        toastError('Falha ao realizar a operação');
     }
 }
 
-function stopInterval(action, currentTask, projectId) {
+async function stopInterval(action, currentTask, projectId) {
 
-    appData.addTaskHistory(action, projectId, currentTask.id);
+    try {
 
-    clearInterval(intervalId);
+        const token = getToken();
+        await postHistory(action, projectId, currentTask.id, token);
+
+        clearInterval(intervalId);
+    }
+    catch(error) {
+
+        console.error(error);
+
+        toastError('Falha ao realizar a operação');
+    }
+}
+
+function toastError(message, duration) {
+
+    Toastify({
+        text: message,
+        duration: duration || 3000,
+        gravity: 'bottom',
+        position: 'left',
+        backgroundColor: "linear-gradient(to right, #e2404f, #fb5c42)"
+    }).showToast();
+}
+
+function toastSucess(message, duration) {
+
+    Toastify({
+        text: message,
+        duration: duration || 3000,
+        gravity: 'bottom',
+        position: 'left',
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+    }).showToast();
 }

@@ -8,7 +8,8 @@ $(document).ready(function() {
 
     projectDetails = new ProjectDetails();
 
-    loadProjects();
+    const token = getToken();
+    loadProjects(undefined, token);
 
     $('.header .menu-item .new-project').on('click', handleNewProject);
     $('.header .search-bar input').on('keyup', handleFindProject);
@@ -23,7 +24,8 @@ async function loadProjects() {
 
         $('.content-left .project-item').remove();
 
-        await appData.getProjects();
+        const token = getToken();
+        const projects = await getProjects(undefined, token);
 
         for (let i = 0; i < projects.length; i++) {
 
@@ -33,6 +35,8 @@ async function loadProjects() {
     catch (error) {
 
         console.error(error);
+
+        toastError('Falha ao realizar a operação');
     }
 }
 
@@ -100,22 +104,32 @@ function handleNewProject() {
     $('.modal-new-project .btn').on('click', handleCreateProject);
 }
 
-function handleShowProjectDetails(event) {
+async function handleShowProjectDetails(event) {
 
-    $('.project-item').removeClass('active');
-    $('.arrow').removeClass('fas fa-chevron-left');
-    $('.arrow').addClass('fas fa-chevron-right');
+    try {
 
-    const $projectItem = $(event.currentTarget);
-    const id = parseInt($projectItem.attr('data-id'));
+        $('.project-item').removeClass('active');
+        $('.arrow').removeClass('fas fa-chevron-left');
+        $('.arrow').addClass('fas fa-chevron-right');
 
-    const project = appData.getProjectById(id);
+        const $projectItem = $(event.currentTarget);
+        const id = parseInt($projectItem.attr('data-id'));
 
-    $projectItem.find('.arrow').removeClass('fas fa-chevron-right');
-    $projectItem.find('.arrow').addClass('fas fa-chevron-left');
-    $projectItem.addClass('active');
+        const token = getToken();
+        const projects = await getProjects(id, token);
 
-    projectDetails.show(project);
+        $projectItem.find('.arrow').removeClass('fas fa-chevron-right');
+        $projectItem.find('.arrow').addClass('fas fa-chevron-left');
+        $projectItem.addClass('active');
+
+        projectDetails.show(projects[0]);
+    }
+    catch(error) {
+        
+        console.error(error);
+
+        toastError('Falha ao realizar a operação');
+    }
 }
 
 async function handleCreateProject(event) {
@@ -145,22 +159,33 @@ async function handleCreateProject(event) {
         const project = {
             name: projectName,
             description: projectDescription,
-            price: projectPrice,
-            estimatedTime: estimatedTime,
+            price: parseFloat(projectPrice) || 0,
+            estimated_time: estimatedTime,
             tasks: []
         };
 
-        await appData.createProject(project);
+        const token = getToken();
+
+        const result = await postProject(project, token);
+
+        if (result.message) {
+
+            toastError(result.message);
+
+            return;
+        }
+
+        project.id = result.project_id;
 
         addProjectHTML(project);
-        newProject.hide();   
+        newProject.hide();
 
     }
     catch (error) {
 
         console.error(error);
 
-        // Notificação de error
+        toastError('Falha ao realizar a operação');
     }
 }
 
@@ -220,16 +245,28 @@ function handleShowOptions() {
     }
 }
 
-function handleDownloadData() {
+async function handleDownloadData() {
 
-    const jsonProjects = JSON.stringify(projects);
+    try {
 
-    const blob = new Blob([jsonProjects], {type: 'text/plan;charset=utf-8'});
-    const url =  URL.createObjectURL(blob);
+        const token = getToken();
+        const projects = await getProjects(undefined, token);
+        const jsonProjects = JSON.stringify(projects);
+    
 
-    const $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
+        const blob = new Blob([jsonProjects], {type: 'text/plan;charset=utf-8'});
+        const url =  URL.createObjectURL(blob);
 
-    $link[0].click();
+        const $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
+
+        $link[0].click();
+    }
+    catch(error) {
+
+        console.error(error);
+
+        toastError('Falha ao realizar a operação');
+    }
 }
 
 function handleImportBackup(event) {

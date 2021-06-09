@@ -1,5 +1,6 @@
 
 const db = require('../database');
+const {generateToken} = require('../security');
 
 exports.createRouters = (app) => {
 
@@ -30,10 +31,9 @@ exports.createRouters = (app) => {
                 return;
             }
 
-            result = await knex.raw('INSERT INTO users (email, password) VALUES (?, ?) RETURNING id', [user.email, user.password]);
-            user.id = result.rows[0].id;
+            await knex.raw('INSERT INTO users (email, password) VALUES (?, ?)', [user.email, user.password]);
             
-            res.send(user);
+            res.send({});
         }
         catch(error) {
 
@@ -57,7 +57,8 @@ exports.createRouters = (app) => {
                 return;
             }
 
-            const result = await knex.raw('SELECT id FROM users WHERE ? = email and ? = password', [user.email.toLowerCase(), user.password]);
+            const result = await knex.raw('SELECT id FROM users WHERE ? = email and ? = password', 
+            [user.email.toLowerCase(), user.password]);
 
             if (result.rows.length === 0) {
 
@@ -66,7 +67,9 @@ exports.createRouters = (app) => {
                 return;
             }
         
-            res.send({});
+            const token = generateToken(result.rows[0].id);
+
+            res.send({token});
         }
         catch (error) {
 

@@ -6,6 +6,19 @@ $(document).ready(() => {
     $('.screen form').submit(handleUserSession);
 });
 
+function showErrors(errors, $field) {
+
+    $field.html('');
+    const vErrors = Object.values(errors);
+
+    for (let i = 0; i < vErrors.length; i++) {
+
+        $field.append(`<span>${vErrors[i]}</span>`);
+    }
+
+    setTimeout(() => $field.addClass('show'), 500);
+}
+
 /* ------------------ HANDLE ------------------ */
 
 function handleShowModal(event) {
@@ -34,9 +47,14 @@ async function handleUserSession(event) {
 
     event.preventDefault();
 
+    const $form = $(event.currentTarget);
+    const $field = $form.find('.error-field');
+
     try {
+
         const $screen = $(event.currentTarget).closest('.screen');
-        const $form = $(event.currentTarget);
+        $form.find('.error-field').removeClass('show');
+
         const email = $form.find('[name="email"]').val();
         const password = $form.find('[name="password"]').val();
 
@@ -51,13 +69,14 @@ async function handleUserSession(event) {
 
                 const result = await postUserLogin(user);
 
-                if (result) {
+                if (result.message || result.password) {
 
-                    alert(result.message);
+                    showErrors(result, $field);
 
                     return;
                 }
                 
+                saveToken(result.token);
                 window.location.assign('../index.html');
 
                 break;
@@ -69,7 +88,7 @@ async function handleUserSession(event) {
 
                 if (user.password !== confirmPassword) {
 
-                    alert('As senhas devem ser iguais');
+                    showErrors({message: 'As senhas não batem'}, $field);
 
                     return;
                 }
@@ -78,12 +97,14 @@ async function handleUserSession(event) {
 
                 if (result) {
 
-                    alert(result.message);
+                    showErrors(result, $field);
 
                     return;
                 }
 
-                alert('Conta registrada com sucesso');
+                $screen.find('input').val('');
+
+                toastSucess('Conta registrada com sucesso');
 
                 $screen.attr('data-show', 'login');
                 $('.login').find('[name="email"]').val(email);
@@ -94,14 +115,21 @@ async function handleUserSession(event) {
 
             case 'recovery': {
 
-                alert('Falha ao realizar a operação');
+                showErrors({message: 'Email inválido'}, $field);
             }
         }
     }
     catch(error) {
 
-        console.error(error);
+        const errors = checkError(error);
 
-        alert('Falha ao realizar a operação');
+        if (errors.details) {
+
+            showErrors(errors.details, $field);
+        }
+        else {
+
+            showErrors({message: errors.message}, $field);
+        }
     }
 }

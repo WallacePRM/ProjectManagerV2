@@ -13,7 +13,10 @@ async function postUserRegister(user) {
 
     if (response.status !== 200) {
 
-        return await response.json();
+        const data = await response.json();
+        const error = createError(data.message || 'Falha ao realizar a operação', data.message ? undefined : data);
+    
+        throw error;
     }
 }
 
@@ -27,8 +30,5 @@ async function postUserLogin(user) {
         body: JSON.stringify(user)
     });
 
-    if (response.status !== 200) {
-
-        return await response.json();
-    }
+    return response.json();
 }

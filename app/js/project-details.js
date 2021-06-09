@@ -21,8 +21,8 @@ function ProjectDetails() {
             $contentRight.find('.timer-register .price').html('');
         }
 
-        if (project.estimatedTime !== '') {
-            $contentRight.find('.timer-register .duration').html(`Estimated Time: ${project.estimatedTime}<span>${formatTime(projectTime)}</span>`);
+        if (project.estimated_time !== '') {
+            $contentRight.find('.timer-register .duration').html(`Estimated Time: ${project.estimated_time}<span>${formatTime(projectTime)}</span>`);
         }   
         else {
             $contentRight.find('.timer-register .duration').html(`<span>${formatTime(projectTime)}</span>`);
@@ -57,28 +57,45 @@ function ProjectDetails() {
         $contentRight.find('.tasks-list').append(`
             <div class="task-item" data-id="${task.id}">
                 <span>${task.name}</span>
-                <span class="task-time">${formatTime(calcTime(task.history))}</span>
+                <span class="task-time">${formatTime(calcTime(task.history || []))}</span>
             </div>
         `);
     }
 
     /* ------------------ FUNCTIONS HANDLE ------------------ */
 
-    function handlePlayPause(event) {
+    async function handlePlayPause(event) {
 
         const $btn = $(event.currentTarget);
+
+        try {
+            const token = getToken();
+            currentProject = (await getProjects(currentProject.id, token))[0];
+        }
+        catch(error) {
+
+            console.error(error);
+
+            toastError('Falha ao realizar a operação');
+
+            return;
+        }
+
         const lastTaskIndice = currentProject.tasks.length - 1;
         const lastTask = currentProject.tasks[lastTaskIndice];
+        let lastHistory;
 
         if ($btn.find('.fa-play').length > 0) {
 
             if (lastTask !== undefined) {
 
                 const lastHistoryIndice = lastTask.history.length - 1;
-                let lastHistory = lastTask.history[lastHistoryIndice];
+                lastHistory = lastTask.history[lastHistoryIndice];
             }
 
-            if (currentProject.tasks.length === 0 || lastHistory.action === 'stop') {
+            const isStopped = lastHistory && lastHistory.action === 'stop';
+
+            if (currentProject.tasks.length === 0 || isStopped) {
 
                 newTask = new Modal({
                     title: 'New Task',
@@ -154,9 +171,16 @@ function ProjectDetails() {
                 return;
             }            
 
+            let task = { 
+                name: taskName,
+                time: 0
+            };
+
             $('.modal-new-task [name="task-name"]').removeClass('error');
 
-            const task = await appData.createTask(taskName, currentProject.id);
+            const token = getToken();
+            task = await postTask(task, currentProject.id, token);
+            currentProject = (await getProjects(currentProject.id ,token))[0];
 
             newTask.hide();
             createTaskHTML(task);
@@ -175,6 +199,8 @@ function ProjectDetails() {
         catch (error) {
 
             console.error(error);
+
+            toastError('Falha ao realizar a operação');
         }
     }
     

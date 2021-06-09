@@ -22,6 +22,6 @@ exports.startServer = (port, () => {
 
     app.listen(port, () => {
 
-        console.log('transmitting in ' + url);
+        console.log('Transmitting in ' + url);
     });
 });

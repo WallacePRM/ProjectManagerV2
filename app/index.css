@@ -19,7 +19,7 @@ body {
     width: 0;
     min-width: 0;
     height: 100%;
-    background-color: #23282d;
+    background-image: linear-gradient(#23282d, #1d2731, #23282d);
     font-size: 1.2rem;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.151);
     overflow: hidden;
@@ -217,7 +217,7 @@ body {
 .content {
     flex: 1;
     display: flex;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     overflow: hidden;
 }
 
@@ -350,8 +350,7 @@ body {
     border-radius: 3px;
 }
 
-.timer .btn:hover,
-.timer .btn:focus {
+.timer .btn:hover {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.459);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.425);
 }
@@ -487,8 +486,7 @@ body {
     padding: 10px 20px;
 }
 
-.modal-body .btn:hover,
-.modal-body .btn:focus {
+.modal-body .btn:hover {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.459);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.425);
 }

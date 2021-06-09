@@ -19,11 +19,6 @@ button {
   outline: none;
 }
 
-button:focus {
-  outline: none;
-  opacity: 0.8;
-}
-
 .btn-primary {
     border: none;
     border-radius: 3px;
