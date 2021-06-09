@@ -8,8 +8,7 @@ $(document).ready(function() {
 
     projectDetails = new ProjectDetails();
 
-    const token = getToken();
-    loadProjects(undefined, token);
+    loadProjects(undefined);
 
     $('.header .menu-item .new-project').on('click', handleNewProject);
     $('.header .search-bar input').on('keyup', handleFindProject);
@@ -24,8 +23,7 @@ async function loadProjects() {
 
         $('.content-left .project-item').remove();
 
-        const token = getToken();
-        const projects = await getProjects(undefined, token);
+        const projects = await getProjects(undefined);
 
         for (let i = 0; i < projects.length; i++) {
 
@@ -115,8 +113,7 @@ async function handleShowProjectDetails(event) {
         const $projectItem = $(event.currentTarget);
         const id = parseInt($projectItem.attr('data-id'));
 
-        const token = getToken();
-        const projects = await getProjects(id, token);
+        const projects = await getProjects(id);
 
         $projectItem.find('.arrow').removeClass('fas fa-chevron-right');
         $projectItem.find('.arrow').addClass('fas fa-chevron-left');
@@ -164,9 +161,7 @@ async function handleCreateProject(event) {
             tasks: []
         };
 
-        const token = getToken();
-
-        const result = await postProject(project, token);
+        const result = await postProject(project);
 
         if (result.message) {
 
@@ -249,8 +244,7 @@ async function handleDownloadData() {
 
     try {
 
-        const token = getToken();
-        const projects = await getProjects(undefined, token);
+        const projects = await getProjects(undefined);
         const jsonProjects = JSON.stringify(projects);
     
 
@@ -274,17 +268,30 @@ function handleImportBackup(event) {
     const file = event.currentTarget.files[0];
     const reader = new FileReader();
 
-    reader.onload = function() {
+    reader.onload = async function() {
 
-        const importedProjects = JSON.parse(reader.result);
+        try {
 
-        projects = projects.concat(importedProjects);
+            const data = JSON.parse(reader.result);
 
-        appData.saveData();
-        loadProjects();
+            projects = projects.concat(data);
 
-        $(event.currentTarget).val(null);
+            await postData(projects);
+            loadProjects();
+
+            $(event.currentTarget).val(null);
+
+            toastError('Uploaded file');
+        }
+        catch(error) {
+
+            console.error(error);
+
+            toastError('Error in importing file');
+        }
     };
 
     reader.readAsText(file);
+
+    toastSucess('Uploaded file');
 }

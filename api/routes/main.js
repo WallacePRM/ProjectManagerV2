@@ -36,14 +36,12 @@ exports.createRouters = (app) => {
 
         try {
 
-            const knex = db.getKnex();
-
             const projectId = parseInt(req.params.id);
             const token = req.headers.autorization;
             const userData = getTokenData(token);
-
             const projects = [];
 
+            const knex = db.getKnex();
             
             if (projectId) {
 
@@ -178,12 +176,12 @@ exports.createRouters = (app) => {
     app.post('/tasks/:project_id', async (req, res) => {
 
         try {
-            const knex = db.getKnex();
-
+            
             const projectId = parseInt(req.params.project_id);
-
             const token = req.headers.autorization;
             const userData = getTokenData(token);
+
+            const knex = db.getKnex();
 
             let result = await knex.raw('INSERT INTO tasks (name, time, project_id, user_id) VALUES (?, ?, ?, ?) RETURNING id',
             [ req.body.name, req.body.time, projectId, userData.user_id ]);
@@ -209,13 +207,12 @@ exports.createRouters = (app) => {
 
         try {
 
-            const knex = db.getKnex();
-
             const projectId = parseInt(req.params.project_id);
             const taskId = parseInt(req.params.task_id);
-
             const token = req.headers.autorization;
             const userData = getTokenData(token);
+
+            const knex = db.getKnex();
 
             const result = await knex.raw('SELECT * FROM tasks WHERE id = ? AND project_id = ? AND user_id = ?',
             [ taskId, projectId, userData.user_id ]);
@@ -231,6 +228,24 @@ exports.createRouters = (app) => {
 
             await knex.raw('INSERT INTO history (action, date, task_id) VALUES (?, ?, ?) RETURNING id',
             [ req.body.action, currentDate, taskId ]);
+
+            res.send({});
+        }
+        catch(error) {
+
+            console.error(error);
+
+            res.status(422).send({message: 'Falha ao realizar a operação'});
+        }
+    });
+
+    app.post('/data', async (req, res) => {
+
+        try {
+            const token = req.headers.autorization;
+            const userData = getTokenData(token);
+
+            const knex = db.getKnex();
 
             res.send({});
         }

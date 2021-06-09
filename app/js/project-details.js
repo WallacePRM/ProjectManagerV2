@@ -22,7 +22,7 @@ function ProjectDetails() {
         }
 
         if (project.estimated_time !== '') {
-            $contentRight.find('.timer-register .duration').html(`Estimated Time: ${project.estimated_time}<span>${formatTime(projectTime)}</span>`);
+            $contentRight.find('.timer-register .duration').html(`Estimated time: ${project.estimated_time}<span>${formatTime(projectTime)}</span>`);
         }   
         else {
             $contentRight.find('.timer-register .duration').html(`<span>${formatTime(projectTime)}</span>`);
@@ -69,8 +69,8 @@ function ProjectDetails() {
         const $btn = $(event.currentTarget);
 
         try {
-            const token = getToken();
-            currentProject = (await getProjects(currentProject.id, token))[0];
+            
+            currentProject = (await getProjects(currentProject.id))[0];
         }
         catch(error) {
 
@@ -178,9 +178,8 @@ function ProjectDetails() {
 
             $('.modal-new-task [name="task-name"]').removeClass('error');
 
-            const token = getToken();
-            task = await postTask(task, currentProject.id, token);
-            currentProject = (await getProjects(currentProject.id ,token))[0];
+            task = await postTask(task, currentProject.id);
+            currentProject = (await getProjects(currentProject.id))[0];
 
             newTask.hide();
             createTaskHTML(task);

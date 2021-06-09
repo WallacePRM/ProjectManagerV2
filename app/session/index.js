@@ -16,7 +16,9 @@ function showErrors(errors, $field) {
         $field.append(`<span>${vErrors[i]}</span>`);
     }
 
-    setTimeout(() => $field.addClass('show'), 500);
+    $field.addClass('show');
+
+    setTimeout(() => $field.removeClass('show'), 10000);
 }
 
 /* ------------------ HANDLE ------------------ */

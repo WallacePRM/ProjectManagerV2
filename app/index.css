@@ -295,7 +295,7 @@ body {
     border-left: 1px solid #bbb;
     overflow: hidden;
     transition: width 0.4s ease-in;
-    background-color: white;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     cursor: default; 
