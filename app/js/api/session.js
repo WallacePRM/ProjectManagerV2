@@ -1,5 +1,5 @@
 
-const url = 'http://localhost:5001';
+const url = 'https://projectmanagerv2.herokuapp.com'; //'http://localhost:5001';
 
 async function postUserRegister(user) {
 
