@@ -4,7 +4,7 @@ const main = require('./main');
 const session = require('./session');
 
 const app = express();
-const port = 5001;
+const port = process.env.PORT || 5001;
 const url = 'http://localhost:' + port;
 
 app.use(express.static('../app'));
