@@ -28,10 +28,8 @@ function ProjectDetails() {
             $contentRight.find('.timer-register .duration').html(`<span>${formatTime(projectTime)}</span>`);
         }
         
-        $contentRight.find('.tasks-list').html(`
-            <h3>Tarefas</h3>
-        `);
-        
+        $contentRight.find('.tasks-list').html('');
+
         if (project.tasks) {
 
             for (let i = 0; i < project.tasks.length; i++) {
@@ -48,6 +46,7 @@ function ProjectDetails() {
         $('.btn-stop').on('click', handleStop);
         $('.content-right .btn-close').on('click', handleHiddenProjectDetails);
         $('.content-right .project-name-left').on('click', handleHiddenDescription);
+        $('.btn-delete').on('click', handleDeleteProject);
     }
 
     function createTaskHTML(task) { 
@@ -76,7 +75,7 @@ function ProjectDetails() {
 
             console.error(error);
 
-            toastError('Falha ao realizar a operação');
+            toastError('Failed to perform operation');
 
             return;
         }
@@ -93,6 +92,7 @@ function ProjectDetails() {
                 lastHistory = lastTask.history[lastHistoryIndice];
             }
 
+            windowCondition = lastHistory;
             const isStopped = lastHistory && lastHistory.action === 'stop';
 
             if (currentProject.tasks.length === 0 || isStopped) {
@@ -101,13 +101,18 @@ function ProjectDetails() {
                     title: 'New Task',
                     content: `
                         <div class="modal-new-task">
-                            <div class="row">
-                                <label>Task name:</label>
-                                <input name="task-name" type="text">
-                            </div>
-                            <div class="row">
-                                <button class="btn btn-primary">Create</button>
-                            </div>
+                            <form>
+                                <div class="new-task-content">
+                                    <div class="row">
+                                        <label>Task name:</label>
+                                        <input name="task-name" type="text">
+                                    </div>
+                                    <div class="row error-field"></div>
+                                </div>
+                                <div class="row">
+                                    <button class="btn btn-primary">Create</button>
+                                </div>
+                            </form>
                         </div>
                     `
                 });
@@ -156,29 +161,31 @@ function ProjectDetails() {
 
         try {
 
+            event.preventDefault();
+
             const $modal = $(event.currentTarget).closest('.modal-new-task');
             const $taskNameInput = $modal.find('[name="task-name"]');
             const taskName = $taskNameInput.val();
 
             $taskNameInput.removeClass('error');
             $taskNameInput.attr('placeholder', '');
-
-            if (taskName === '') {
-
-                $taskNameInput.addClass('error');
-                $taskNameInput.attr('placeholder', 'Required field');
-
-                return;
-            }            
-
+           
             let task = { 
-                name: taskName,
-                time: 0
+                name: taskName
             };
 
             $('.modal-new-task [name="task-name"]').removeClass('error');
 
-            task = await postTask(task, currentProject.id);
+            const result = await postTask(task, currentProject.id);
+            if (result.message) {
+
+                $('.background-load').removeClass('show');
+                showErrors(result, $('.modal-new-task .error-field'));
+    
+                return;
+            }
+
+            task = result;
             currentProject = (await getProjects(currentProject.id))[0];
 
             newTask.hide();
@@ -199,7 +206,7 @@ function ProjectDetails() {
 
             console.error(error);
 
-            toastError('Falha ao realizar a operação');
+            toastError('Failed to perform operation');
         }
     }
     
@@ -210,6 +217,7 @@ function ProjectDetails() {
         $('.arrow').addClass('fas fa-chevron-right');
 
         $('.content').removeClass('show');
+        $('.btn-delete').removeClass('show');
     }
 
     function handleHiddenDescription() {
@@ -227,6 +235,40 @@ function ProjectDetails() {
         else {
             $icon.removeAttr('class');
             $icon.attr('class', 'fas fa-caret-right')
+        }
+    }
+
+    async function handleDeleteProject() {
+
+        try {
+
+            const result = await deleteProject(currentProject.id);
+            if (result.message) {
+
+                toastError(result.message);
+
+                return;
+            }
+
+            const projects = $('.project-item').toArray();
+            for (let i = 0; i < projects.length; i++) {
+
+                let $project = $(projects[i]);
+
+                if ($project.attr('data-id') === `${currentProject.id}`) {
+
+                    $project.remove();
+                }
+            }
+
+            $('.content-right .btn-close').click()
+            toastSucess('Project deleted successfully');
+        }
+        catch(error) {
+
+            console.error(error);
+
+            toastError('Failed to perform operation');
         }
     }
 

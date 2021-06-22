@@ -17,8 +17,9 @@
     </head>
     <body>
         <div class="options">
-            <!-- <a class="options-item" href="./index.html" ><i class="fas fa-home"></i>Home</a> -->
-            <a class="options-item" href="./session/index.html"><i class="fas ti-shift-left-alt"></i>Sign out</a>
+            <a class="options-item" href="./session/index.html">
+                <i class="ti-shift-left-alt"></i>Sign out
+            </a>
         </div>
 
         <!-- ------------------  SITE ------------------ -->
@@ -56,16 +57,16 @@
             
             <!-- ------------------  CONTENT ------------------ -->
             <div class="content">
-
                 <!-- -------------  CONTENT LEFT ------------- -->
-
                 <div class="content-left">
                     <pre class="empty-msg">Not found</pre>
                 </div>
 
                 <!-- --------------  CONTENT RIGHT ------------ -->
-
                 <div class="content-right">
+                    <div class="btn-delete" title="Delete project">
+                        <i class="ti-trash"></i>
+                    </div>
                     <div class="project-name">
                         <div class="project-name-left">
                             <i class="fas fa-caret-down"></i>
@@ -86,17 +87,12 @@
                             <span class="price"><span>R$</span> 1300</span>
                         </div>
                     </div>
-                    <div class="tasks-list">
-                        <h3>Tarefas</h3>
-                        <div class="task-item">
-                            <span>Task Name</span>
-                            <span>00:00:00</span>
-                        </div>
-                    </div>
+                    <h3 class="tasks-title">Tasks</h3>
+                    <div class="tasks-list"></div>
                 </div>
             </div>
 
-            <!-- ------------------ MODAL ------------------ -->
+            <!-- ------------------ MODALS ------------------ -->
             <div class="background-modal">
                 <div class="modal">
                     <div class="modal-header">
@@ -107,6 +103,10 @@
                         
                     </div>
                 </div>
+            </div>
+            <div class="background-load">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <span>Processing...</span>
             </div>
         </div>
 

@@ -7,12 +7,13 @@ exports.createRouters = (app) => {
     app.post('/projects', async (req, res) => {
 
         try {
+
             const project = req.body;
+            const erros = validateProject(project);
+            if (Object.keys(erros).length > 0) {
 
-            if (Object.keys(project).length === 0) {
+                res.status(422).send(erros);
 
-                res.status(422).send({message: 'Falha ao realizar a operação'});
-            
                 return;
             }
 
@@ -28,7 +29,7 @@ exports.createRouters = (app) => {
 
             console.error(error);
 
-            res.status(422).send({message: 'Falha ao realizar a operação'});
+            res.status(422).send({message: 'Failed to perform operation'});
         }
     });
 
@@ -42,7 +43,7 @@ exports.createRouters = (app) => {
             const projects = [];
 
             const knex = db.getKnex();
-            
+
             if (projectId) {
 
                 let result = await knex.raw('SELECT * FROM projects WHERE id = ? AND user_id = ?',
@@ -57,12 +58,13 @@ exports.createRouters = (app) => {
                         tasks: []
                 };
                 
-                result = await knex.raw(`SELECT tasks.id AS task_id, name, time,
+                result = await knex.raw(`SELECT tasks.id AS task_id, name,
                     history.id AS history_id, action, date
                     FROM tasks 
                     LEFT JOIN history
                     ON history.task_id = tasks.id
-                    WHERE project_id = ? AND user_id = ?`,
+                    WHERE project_id = ? AND user_id = ?
+                    ORDER BY history.date`,
                 [ projectId, userData.user_id ]);
 
                 for (let i = 0; i < result.rows.length; i++) {
@@ -74,7 +76,6 @@ exports.createRouters = (app) => {
                         task = {
                             id: result.rows[i].task_id,
                             name: result.rows[i].name,
-                            time: result.rows[i].time,
                             history: []
                         };
 
@@ -108,7 +109,7 @@ exports.createRouters = (app) => {
                 conditionValue.push(userData.user_id);
 
                 let result = await knex.raw(`SELECT projects.id AS project_id, projects.name AS project_name, description, estimated_time, price,
-                    tasks.id AS task_id, tasks.name AS task_name, time,
+                    tasks.id AS task_id, tasks.name AS task_name,
                     history.id AS history_id, action, date
                     FROM projects
                     LEFT JOIN tasks
@@ -117,7 +118,8 @@ exports.createRouters = (app) => {
                     ON tasks.id = history.task_id
                     WHERE ${condition}
                     ORDER BY projects.name,
-                    tasks.id`,
+                    tasks.id,
+                    history.date`,
                 conditionValue );
 
                 for (let i = 0; i < result.rows.length; i++) {
@@ -145,7 +147,6 @@ exports.createRouters = (app) => {
                         task = {
                             id: result.rows[i].task_id,
                             name: result.rows[i].task_name,
-                            time: result.rows[i].time,
                             history: []
                         };
 
@@ -169,27 +170,71 @@ exports.createRouters = (app) => {
 
             console.error(error);
             
-            res.status(422).send({message: 'Falha ao realizar a operação'});
+            res.status(422).send({message: 'Failed to perform operation'});
+        }
+    });
+
+    app.delete('/projects/:id', async (req, res) => {
+
+        try {
+
+            const projectId = parseInt(req.params.id);
+            const token = req.headers.autorization;
+            const userData = getTokenData(token);
+            
+            const knex = db.getKnex();
+
+            const result = await knex.raw('SELECT id FROM tasks WHERE project_id = ? AND user_id = ?',
+            [ projectId, userData.user_id ]);
+
+            for (let i = 0; i < result.rows.length; i++) {
+
+                await knex.raw('DELETE FROM history WHERE task_id = ?',
+                [ result.rows[i].id ]);
+            }
+
+            for (let i = 0; i < result.rows.length; i++) {
+
+                await knex.raw('DELETE FROM tasks WHERE id = ?',
+                [ result.rows[i].id ]);
+            }
+
+            await knex.raw('DELETE FROM projects WHERE id = ? AND user_id = ?',
+                [ projectId, userData.user_id ]);
+
+            res.send({});
+        }
+        catch(error) {
+
+            console.error(error);
+            
+            res.status(422).send({message: 'Failed to perform operation'});
         }
     });
 
     app.post('/tasks/:project_id', async (req, res) => {
 
         try {
+
+            const errors = validateTask(req.body);
+            if (Object.keys(errors).length > 0) {
+
+                res.status(422).send(errors);
+
+                return;
+            }
             
             const projectId = parseInt(req.params.project_id);
             const token = req.headers.autorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
-
-            let result = await knex.raw('INSERT INTO tasks (name, time, project_id, user_id) VALUES (?, ?, ?, ?) RETURNING id',
-            [ req.body.name, req.body.time, projectId, userData.user_id ]);
+            let result = await knex.raw('INSERT INTO tasks (name, project_id, user_id) VALUES (?, ?, ?) RETURNING id',
+            [ req.body.name, projectId, userData.user_id ]);
 
             const task = {
                 id: result.rows[0].id,
                 name: req.body.name,
-                time: req.body.time,
                 history: []
             };
 
@@ -199,7 +244,7 @@ exports.createRouters = (app) => {
 
             console.error(error);
 
-            res.status(422).send({ message: 'Falha ao realizar a operação'});
+            res.status(422).send({ message: 'Failed to perform operation'});
         }
     });
 
@@ -219,7 +264,7 @@ exports.createRouters = (app) => {
 
             if (result.rows.length === 0) {
 
-                res.status(422).send({message: 'Tafera não encontrada'});
+                res.status(422).send({message: 'Task not found'});
 
                 return;
             }
@@ -235,25 +280,58 @@ exports.createRouters = (app) => {
 
             console.error(error);
 
-            res.status(422).send({message: 'Falha ao realizar a operação'});
+            res.status(422).send({message: 'Failed to perform operation'});
         }
     });
 
-    app.post('/data', async (req, res) => {
+    function validateProject(project) {
 
-        try {
-            const token = req.headers.autorization;
-            const userData = getTokenData(token);
+        const errors = {};
 
-            const knex = db.getKnex();
+        if (!project) {
 
-            res.send({});
+            errors.message = 'Informe os dados';
+
+            return errors;
         }
-        catch(error) {
+        
+        if (!project.name) {
 
-            console.error(error);
-
-            res.status(422).send({message: 'Falha ao realizar a operação'});
+            erros.message = 'Required name';
         }
-    });
+        else if (project.name.length > 50) {
+
+            errors.message = 'Name must contain a maximum of 50 characters';
+        }
+
+        if (project.description.length > 100) {
+
+            errors.description = 'Description must contain a maximum of 100 characters';
+        }
+
+        if (project.estimated_time.length > 10) {
+
+            errors.estimated_time = 'Password must contain a maximum of 10 characters';
+        }
+
+        return errors;
+    }
+
+    function validateTask(task) {
+
+        const errors = {};
+
+        if (!task.name) {
+
+            errors.message = 'Required name';
+
+            return errors;
+        }
+        else if (task.name.length > 30) {
+
+            errors.message = 'Name must contain a maximum of 30 characters';
+        }
+
+        return errors;
+    }
 }

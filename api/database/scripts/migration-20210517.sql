@@ -2,7 +2,7 @@
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY, 
 	email VARCHAR(50) NOT NULL,
-	password VARCHAR(30) NOT NULL
+	password VARCHAR(70) NOT NULL
 );
 
 CREATE TABLE projects (
@@ -20,7 +20,6 @@ CREATE TABLE projects (
 CREATE TABLE tasks (
 	id SERIAL PRIMARY KEY, 
 	name VARCHAR(30) NOT NULL,
-    time FLOAT NOT NULL,
 	
     project_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,

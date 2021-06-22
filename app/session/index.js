@@ -4,6 +4,8 @@ $(document).ready(() => {
     $('.btn-show-modal').on('click', handleShowModal);
     $('.login .forgot-password').on('click', handleShowModalRecovery);
     $('.screen form').submit(handleUserSession);
+
+    checkRecoveryPassword();
 });
 
 function showErrors(errors, $field) {
@@ -19,6 +21,17 @@ function showErrors(errors, $field) {
     $field.addClass('show');
 
     setTimeout(() => $field.removeClass('show'), 10000);
+}
+
+function checkRecoveryPassword() {
+
+    const params = new URLSearchParams(location.search);
+    const token = params.get('recovery');
+
+    if (token) {
+
+        $('.screen').attr('data-show', 'reset-password');
+    }
 }
 
 /* ------------------ HANDLE ------------------ */
@@ -49,6 +62,8 @@ async function handleUserSession(event) {
 
     event.preventDefault();
 
+    $('.background-load').addClass('show');
+
     const $form = $(event.currentTarget);
     const $field = $form.find('.error-field');
 
@@ -74,6 +89,7 @@ async function handleUserSession(event) {
                 if (result.message || result.password) {
 
                     showErrors(result, $field);
+                    $('.background-load').removeClass('show');
 
                     return;
                 }
@@ -90,7 +106,7 @@ async function handleUserSession(event) {
 
                 if (user.password !== confirmPassword) {
 
-                    showErrors({message: 'As senhas não batem'}, $field);
+                    showErrors({message: 'Passwords do not match'}, $field);
 
                     return;
                 }
@@ -100,13 +116,14 @@ async function handleUserSession(event) {
                 if (result) {
 
                     showErrors(result, $field);
+                    $('.background-load').removeClass('show');
 
                     return;
                 }
 
                 $screen.find('input').val('');
 
-                toastSucess('Conta registrada com sucesso');
+                toastSucess('Account created successfully');
 
                 $screen.attr('data-show', 'login');
                 $('.login').find('[name="email"]').val(email);
@@ -117,9 +134,63 @@ async function handleUserSession(event) {
 
             case 'recovery': {
 
-                showErrors({message: 'Email inválido'}, $field);
+                try {
+
+                    const result = await postUserRecovery(email);
+
+                    if (result.message) {
+
+                        toastError(result.message);
+                        $('.background-load').removeClass('show');
+
+                        return;
+                    }
+
+                    toastSucess(result.message);
+
+                    $('.background-load').removeClass('show');
+                }
+                catch(error) {
+
+                    $('.background-load').removeClass('show');
+
+                    console.error(error);
+                    toastError('Failed to perform operation');  
+                }
+
+                break;
+            }
+            
+            case 'reset-password': {
+
+                const params = new URLSearchParams(location.search);
+                const token = params.get('recovery');
+                const confirmPassword = $form.find('[name="confirm_password"]').val();
+
+                if (password !== confirmPassword) {
+
+                    showErrors({message: 'Passwords do not match'}, $field);
+
+                    return;
+                }
+
+                const result = await postResetPassword(password, token);
+
+                if (result.message) {
+
+                    toastError(result.message);
+
+                    return;
+                }
+
+                toastSucess('Password changed successfully');
+                $screen.attr('data-show', 'login'); 
+
+                break;
             }
         }
+
+        $('.background-load').removeClass('show');
     }
     catch(error) {
 
@@ -133,5 +204,7 @@ async function handleUserSession(event) {
 
             showErrors({message: errors.message}, $field);
         }
+
+        $('.background-load').removeClass('show');
     }
 }

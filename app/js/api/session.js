@@ -32,3 +32,29 @@ async function postUserLogin(user) {
 
     return response.json();
 }
+
+async function postUserRecovery(email) {
+
+    const response = await fetch(url + '/session/recovery', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+    });
+
+    return response.json();
+}
+
+async function postResetPassword(password, token) {
+
+    const response = await fetch(url + '/session/reset_password', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, password })
+    });
+
+    return response.json();
+}

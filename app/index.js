@@ -21,6 +21,7 @@ async function loadProjects() {
 
     try {
 
+        $('.background-load').addClass('show');
         $('.content-left .project-item').remove();
 
         const projects = await getProjects(undefined);
@@ -29,12 +30,16 @@ async function loadProjects() {
 
             addProjectHTML(projects[i]);
         }
+
+       $('.background-load').removeClass('show');
+        
     }
     catch (error) {
 
-        console.error(error);
+        $('.background-load').removeClass('show');
 
-        toastError('Falha ao realizar a operação');
+        console.error(error);
+        toastError('Failed to perform operation');
     }
 }
 
@@ -46,13 +51,15 @@ function addProjectHTML(project) {
 
     const $projectItem = $(`
         <div class="project-item" data-id="${project.id}">
-            <div class="project-item-top">
-                <span class="project-name">${project.name}</span>
-                <span class="time">${formatTime(projectTime)}</span>
-            </div>
-            <i class="arrow fas fa-chevron-right"></i>
-            <div class="project-item-bottom">
-                <span>${lastTask ? lastTask.name : ''}</span>
+            <div class="project-item-details">
+                <div class="project-item-top">
+                    <span class="project-name">${project.name}</span>
+                    <span class="time">${formatTime(projectTime)}</span>
+                </div>
+                <i class="arrow fas fa-chevron-right"></i>
+                <div class="project-item-bottom">
+                    <span>${lastTask && lastTask.name ? lastTask.name : ''}</span>
+                </div>
             </div>
         </div>
     `);
@@ -61,6 +68,21 @@ function addProjectHTML(project) {
     $('.content-left .empty-msg').css('display', 'none');
 
     $projectItem.on('click', handleShowProjectDetails);
+}
+
+function showErrors(errors, $field) {
+
+    $field.html('');
+    const vErrors = Object.values(errors);
+
+    for (let i = 0; i < vErrors.length; i++) {
+
+        $field.append(`<span>${vErrors[i]}</span>`);
+    }
+
+    $field.addClass('show');
+
+    setTimeout(() => $field.removeClass('show'), 10000);
 }
 
 /* ------------------ HANDLE ------------------ */
@@ -72,23 +94,26 @@ function handleNewProject() {
         content: `
             <div class="modal-new-project">
                 <form>
-                    <div class="row">
-                        <label>Project name *</label>
-                        <input name="project-name" type="text" required>
+                    <div class="new-project-content">
+                        <div class="row">
+                            <label>Project name *</label>
+                            <input name="project-name" type="text" required>
+                        </div>
+                        <div class="row">
+                            <label>Project description</label>
+                            <textarea name="project-description" type="text"></textarea>
+                        </div>
+                        <div class="row">
+                            <label>Project price</label>
+                            <input name="project-price" type="number">
+                        </div>
+                        <div class="row">
+                            <label>Estimated time</label>
+                            <input name="project-estimated-time" placeholder="HH:MM" type="text">
+                        </div>
+                        <div class="row error-field"></div>
                     </div>
-                    <div class="row">
-                        <label>Project description</label>
-                        <textarea name="project-description" type="text"></textarea>
-                    </div>
-                    <div class="row">
-                        <label>Project price</label>
-                        <input name="project-price" type="number">
-                    </div>
-                    <div class="row">
-                        <label>Estimated time</label>
-                        <input name="project-estimated-time" placeholder="HH:MM" type="text">
-                    </div>
-                    <div class="row">
+                    <div class="row btn-footer">
                         <button class="btn btn-primary">Create</button>
                     </div>
                 </form>
@@ -106,13 +131,15 @@ async function handleShowProjectDetails(event) {
 
     try {
 
+        $('.background-load').addClass('show');
+
         $('.project-item').removeClass('active');
         $('.arrow').removeClass('fas fa-chevron-left');
         $('.arrow').addClass('fas fa-chevron-right');
 
         const $projectItem = $(event.currentTarget);
         const id = parseInt($projectItem.attr('data-id'));
-
+        
         const projects = await getProjects(id);
 
         $projectItem.find('.arrow').removeClass('fas fa-chevron-right');
@@ -120,12 +147,16 @@ async function handleShowProjectDetails(event) {
         $projectItem.addClass('active');
 
         projectDetails.show(projects[0]);
+        $('.btn-delete').addClass('show');
+
+        $('.background-load').removeClass('show');
     }
     catch(error) {
         
-        console.error(error);
+        $('.background-load').removeClass('show');
 
-        toastError('Falha ao realizar a operação');
+        console.error(error);
+        toastError('Failed to perform operation');
     }
 }
 
@@ -134,21 +165,14 @@ async function handleCreateProject(event) {
     try {
         event.preventDefault();
 
+        $('.background-load').addClass('show');
+
         const $modal = $(event.currentTarget).closest('.modal-new-project');
         
         $modal.find('[name="project-name"]').removeClass('error');
         $modal.find('[name="project-name"]').attr('placeholder', '');
 
         const projectName = $modal.find('[name="project-name"]').val();
-        
-        if (projectName === '') {
-
-            $modal.find('[name="project-name"]').addClass('error');
-            $modal.find('[name="project-name"]').attr('placeholder', 'Required field');
-
-            return;
-        }
-        
         const projectDescription = $modal.find('[name="project-description"]').val();
         const projectPrice = $modal.find('[name="project-price"]').val();
         const estimatedTime = $modal.find('[name="project-estimated-time"]').val();
@@ -162,25 +186,26 @@ async function handleCreateProject(event) {
         };
 
         const result = await postProject(project);
+        if (result.message || result.description || result.estimated_time) {
 
-        if (result.message) {
-
-            toastError(result.message);
+            $('.background-load').removeClass('show');
+            showErrors(result, $('.modal-new-project .error-field'));
 
             return;
         }
 
         project.id = result.project_id;
-
         addProjectHTML(project);
-        newProject.hide();
 
+        newProject.hide();
+        $('.background-load').removeClass('show');
     }
     catch (error) {
 
-        console.error(error);
+        $('.background-load').removeClass('show');
 
-        toastError('Falha ao realizar a operação');
+        console.error(error);
+        toastError('Failed to perform operation');
     }
 }
 
@@ -244,6 +269,8 @@ async function handleDownloadData() {
 
     try {
 
+        $('.background-load').addClass('show');
+
         const projects = await getProjects(undefined);
         const jsonProjects = JSON.stringify(projects);
     
@@ -254,12 +281,15 @@ async function handleDownloadData() {
         const $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
 
         $link[0].click();
+
+        $('.background-load').removeClass('show');
     }
     catch(error) {
 
-        console.error(error);
+        $('.background-load').removeClass('show');
 
-        toastError('Falha ao realizar a operação');
+        console.error(error);
+        toastError('Failed to perform operation');
     }
 }
 
@@ -281,17 +311,15 @@ function handleImportBackup(event) {
 
             $(event.currentTarget).val(null);
 
-            toastError('Uploaded file');
+            toastSucess('Uploaded file');
         }
         catch(error) {
 
             console.error(error);
 
-            toastError('Error in importing file');
+            toastError('Failed to perform operation');
         }
     };
 
     reader.readAsText(file);
-
-    toastSucess('Uploaded file');
 }

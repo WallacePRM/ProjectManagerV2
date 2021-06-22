@@ -16,6 +16,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     height: 100vh;
     width: 100%;
     cursor: default;
@@ -54,6 +55,10 @@ form {
 
 [data-show="register"] {
     margin-left: -200%;
+}
+
+[data-show="reset-password"] {
+    margin-left: -300%;
 }
 
 [data-show="recovery"] {
@@ -211,6 +216,29 @@ form {
 
 .btn-login:hover {
     opacity: 0.9;
+}
+
+/* ------------------ BACKGROUND-LOAD ------------------ */
+
+.background-load {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #23282d59;
+    font-size: 2rem;
+    color: #fff;
+    cursor: default;
+    z-index: 5;
+}
+
+.background-load.show {
+    display: flex;
 }
 
 @media(max-width: 760px) {

@@ -86,9 +86,28 @@ async function playPause(action, currentTask, project) {
 
         if (action === 'pause') {
             clearInterval(intervalId);
+
+            window.onbeforeunload = () => {};
         }
         else {
             startInterval(project);
+
+            window.onbeforeunload = async (event) => {
+
+                const message = 'Important: Please click on \'Save\' button to leave this page.';
+                
+                if (typeof event == 'undefined') {
+                    event = window.event;
+                }
+            
+                if (event) {
+                    event.returnValue = message;
+                }
+
+                await postHistory('pause', project.id, project.tasks[project.tasks.length - 1].id);
+            
+                return message;
+            };
         }
     }
     catch(error) {
@@ -102,7 +121,8 @@ async function playPause(action, currentTask, project) {
 async function stopInterval(action, currentTask, projectId) {
 
     try {
-
+        window.onbeforeunload = () => {};
+        
         const token = getToken();
         await postHistory(action, projectId, currentTask.id, token);
 

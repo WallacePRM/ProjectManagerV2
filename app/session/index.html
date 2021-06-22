@@ -17,6 +17,9 @@
     </head>
     <body>
         <div class="site">
+            <div class="background-load">
+                <i class="fas fa-circle-notch fa-spin"></i>
+            </div>
             <div class="carousel">
                 <div class="screen" data-show="login">
                     <div class="modal recovery">
@@ -97,6 +100,31 @@
                             <div class="modal-footer">
                                 <button class="btn-show-modal"  type="button">Back to login</button>
                                 <button class="btn-login">Create</button>
+                            </div>
+                            <span class="creation-date">Created in 02/14/2020</span>
+                        </form>
+                    </div>
+
+                    <div class="modal reset-password">
+                        <form>
+                            <div class="modal-header">
+                                <h3>Project Manager V2</h3>
+                                <span>Reset password</span>
+                            </div>
+                            <div class="modal-content">
+                                <div class="content-item">
+                                    <label class="label-password">New password</label>
+                                    <input name="password" type="password" required>
+                                </div>
+                                <div class="content-item hide">
+                                    <label class="label-confirm-password">Confirm password</label>
+                                    <input name="confirm_password" type="password" required>
+                                </div>
+                                <div class="error-field"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn-show-modal"  type="button">Back to login</button>
+                                <button class="btn-login">Confirm</button>
                             </div>
                             <span class="creation-date">Created in 02/14/2020</span>
                         </form>

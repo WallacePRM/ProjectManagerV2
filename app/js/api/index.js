@@ -28,6 +28,19 @@ async function getProjects(project_id) {
     return await response.json();
 }
 
+async function deleteProject(project_id) {
+
+    const token = getToken();
+    const response = await fetch(url + '/projects/' + (project_id ? project_id : ''), {
+        method: 'DELETE',
+        headers: { 
+            autorization: token
+        }
+    });
+
+    return await response.json();
+}
+
 async function postTask(task, project_id) {
 
     const token = getToken();
