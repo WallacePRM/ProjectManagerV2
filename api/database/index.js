@@ -24,8 +24,6 @@ exports.executeMigration = async () => {
     }
     catch(error) {
 
-        console.log(error);
-
         if (error.message.indexOf('relation "users" does not exist') === -1) {
 
             return;

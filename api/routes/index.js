@@ -13,7 +13,7 @@ app.use(cors());
 
 app.get('/', (req, res) => {
 
-    res.send('OK');
+    res.redirect(302, '/app');
 });
 
 main.createRouters(app);
