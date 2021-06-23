@@ -29,7 +29,7 @@ exports.executeMigration = async () => {
             return;
         }
 
-        const script = fs.readFileSync('./database/scripts/migration-20210517.sql', 'utf-8');
+        const script = fs.readFileSync('./api/database/scripts/migration-20210517.sql', 'utf-8');
         await knex.raw(script);
     }
 };
