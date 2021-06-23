@@ -4,7 +4,7 @@ const fs = require('fs');
 const knexConfig = require('knex');
 const knex = knexConfig({
     client: 'pg',
-    connection: process.env.DATABASE_URL || {
+    connection: process.env.DATABASE_URL ? (process.env.DATABASE_URL + '?ssl=true') : {
         host : 'localhost',
         user : 'postgres',
         password : 'masterkey',
