@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+
 const knexConfig = require('knex');
 const knex = knexConfig({
     client: 'pg',
@@ -13,6 +15,25 @@ const knex = knexConfig({
 exports.getKnex = () => {
 
     return knex;
+};
+
+exports.executeMigration = async () => {
+
+    try {
+        await knex.raw('SELECT id FROM users LIMIT 1');
+    }
+    catch(error) {
+
+        console.log(error);
+
+        if (error.message.indexOf('relation "users" does not exist') === -1) {
+
+            return;
+        }
+
+        const script = fs.readFileSync('./database/scripts/migration-20210517.sql', 'utf-8');
+        await knex.raw(script);
+    }
 };
 
 const types = require("pg").types;
