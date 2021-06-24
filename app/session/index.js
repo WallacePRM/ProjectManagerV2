@@ -138,9 +138,9 @@ async function handleUserSession(event) {
 
                     const result = await postUserRecovery(email);
 
-                    if (result.message) {
+                    if (result.error) {
 
-                        toastError(result.message);
+                        toastError(result.error);
                         $('.background-load').removeClass('show');
 
                         return;

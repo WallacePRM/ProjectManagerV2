@@ -1,7 +1,7 @@
 
 const db = require('../database');
 const { generateToken, getTokenData } = require('../security');
-const { transporter } = require('./config');
+const { transporter, host } = require('./config');
 const Crypto = require('crypto-js');
 
 exports.createRouters = (app) => {
@@ -90,7 +90,7 @@ exports.createRouters = (app) => {
             const email = req.body.email;
             if (!req.body.email) {
 
-                res.status(422).send({message: 'Required email'});
+                res.status(422).send({error: 'Required email'});
 
                 return;
             }
@@ -101,18 +101,17 @@ exports.createRouters = (app) => {
 
             if (result.rows.length === 0) {
 
-                res.status(422).send({message: 'invalid email'});
+                res.status(422).send({error: 'invalid email'});
 
                 return;
             }
 
             const token = generateToken(result.rows[0]);
-            const host = 'http://localhost:5500/';
             const mailOptions = {
                 from: 'projectmanagerv2.oficial@gmail.com',
                 to: email,
                 subject: 'Password recovery',
-                html: makeTemplate(`${host}session/?recovery=${token}`)
+                html: makeTemplate(`${host}/app/session/?recovery=${token}`)
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -121,7 +120,7 @@ exports.createRouters = (app) => {
 
                     console.log(error);
 
-                    res.status(422).send({message: 'Failed to perform operation'});
+                    res.status(422).send({error: 'Failed to perform operation'});
                 } 
                 else {
 
@@ -133,7 +132,7 @@ exports.createRouters = (app) => {
 
             console.error(error);
 
-            res.status(422).send({message: 'Failed to perform operation'});
+            res.status(422).send({error: 'Failed to perform operation'});
         }
     });
 
