@@ -112,7 +112,7 @@ exports.createRouters = (app) => {
                 from: 'projectmanagerv2.oficial@gmail.com',
                 to: email,
                 subject: 'Password recovery',
-                html: `<a href="${host}session/?recovery=${token}">Click to reset your password</a>`
+                html: makeTemplate(`${host}session/?recovery=${token}`)
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -194,5 +194,19 @@ exports.createRouters = (app) => {
         }
 
         return erros;
+    }
+
+    function makeTemplate(link) {
+
+        return `
+        <div>
+            <div style="background-color: #23282d; color: #fff; padding: 20px">
+                <h1 style="margin: 0;">HI,</h1>
+            </div>
+            <div style="padding: 20px; font-size: 20px; color: #444;">
+                <p style="margin: 0; margin-bottom: 40px;">Click on the button below to reset the password</p>
+                <a href="${link}" style="padding: 10px 20px; background-color: #23282d; color: #fff; text-decoration: none;">Go to page</a>
+            </div>
+        </div>`;
     }
 }
