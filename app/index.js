@@ -6,6 +6,8 @@ let newProject;
 
 $(document).ready(function() {
 
+    if (!checkUser()) return; 
+
     projectDetails = new ProjectDetails();
 
     loadProjects(undefined);
@@ -83,6 +85,20 @@ function showErrors(errors, $field) {
     $field.addClass('show');
 
     setTimeout(() => $field.removeClass('show'), 10000);
+}
+
+function checkUser() {
+
+    const token = localStorage.getItem('app-token');
+
+    if (!token) {
+
+        window.location.assign('../session/index.html');
+
+        return false;
+    }
+
+    return true;
 }
 
 /* ------------------ HANDLE ------------------ */

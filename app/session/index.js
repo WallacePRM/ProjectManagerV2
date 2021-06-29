@@ -107,6 +107,7 @@ async function handleUserSession(event) {
                 if (user.password !== confirmPassword) {
 
                     showErrors({message: 'Passwords do not match'}, $field);
+                    $('.background-load').removeClass('show');
 
                     return;
                 }

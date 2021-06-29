@@ -1,6 +1,4 @@
 
-const url = 'https://projectmanagerv2.herokuapp.com'; //'http://localhost:5001';
-
 async function postUserRegister(user) {
 
     const response = await fetch(url + '/session/register', {

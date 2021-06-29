@@ -1,6 +1,4 @@
 
-const url =  'https://projectmanagerv2.herokuapp.com'; //'http://localhost:5001';
-
 async function postProject(project) {
 
     const token = getToken();

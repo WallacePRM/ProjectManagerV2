@@ -1,4 +1,5 @@
 
+const url =  window.location.host === 'projectmanagerv2.herokuapp.com' ? 'https://projectmanagerv2.herokuapp.com' : 'http://localhost:5001';
 
 function createError(msg, details) {
 
