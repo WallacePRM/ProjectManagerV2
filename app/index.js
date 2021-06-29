@@ -93,7 +93,7 @@ function checkUser() {
 
     if (!token) {
 
-        window.location.assign('../session/index.html');
+        window.location.assign('../app/session/index.html');
 
         return false;
     }
