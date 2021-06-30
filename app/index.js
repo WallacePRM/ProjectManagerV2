@@ -281,61 +281,39 @@ function handleShowOptions() {
     }
 }
 
-async function handleDownloadData() {
-
-    try {
-
-        $('.background-load').addClass('show');
-
-        const projects = await getProjects(undefined);
-        const jsonProjects = JSON.stringify(projects);
-    
-
-        const blob = new Blob([jsonProjects], {type: 'text/plan;charset=utf-8'});
-        const url =  URL.createObjectURL(blob);
-
-        const $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
-
-        $link[0].click();
-
-        $('.background-load').removeClass('show');
-    }
-    catch(error) {
-
-        $('.background-load').removeClass('show');
-
-        console.error(error);
-        toastError('Failed to perform operation');
-    }
-}
-
-function handleImportBackup(event) {
-
-    const file = event.currentTarget.files[0];
-    const reader = new FileReader();
-
-    reader.onload = async function() {
-
-        try {
-
-            const data = JSON.parse(reader.result);
-
-            projects = projects.concat(data);
-
-            await postData(projects);
-            loadProjects();
-
-            $(event.currentTarget).val(null);
-
-            toastSucess('Uploaded file');
-        }
-        catch(error) {
-
-            console.error(error);
-
-            toastError('Failed to perform operation');
-        }
-    };
-
-    reader.readAsText(file);
-}
+// async function handleDownloadData() {
+//     try {
+//         $('.background-load').addClass('show');
+//         const projects = await getProjects(undefined);
+//         const jsonProjects = JSON.stringify(projects);
+//         const blob = new Blob([jsonProjects], {type: 'text/plan;charset=utf-8'});
+//         const url =  URL.createObjectURL(blob);
+//         const $link = $(`<a href="${url}" download="ProjectManagerV2_Backup.txt">download</a>`);
+//         $link[0].click();
+//         $('.background-load').removeClass('show');
+//     }
+//     catch(error) {
+//         $('.background-load').removeClass('show');
+//         console.error(error);
+//         toastError('Failed to perform operation');
+//     }
+// }
+// function handleImportBackup(event) {
+//     const file = event.currentTarget.files[0];
+//     const reader = new FileReader();
+//     reader.onload = async function() {
+//         try {
+//             const data = JSON.parse(reader.result);
+//             projects = projects.concat(data);
+//             await postData(projects);
+//             loadProjects();
+//             $(event.currentTarget).val(null);
+//             toastSucess('Uploaded file');
+//         }
+//         catch(error) {
+//             console.error(error);
+//             toastError('Failed to perform operation');
+//         }
+//     };
+//     reader.readAsText(file);
+// }
