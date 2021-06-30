@@ -297,7 +297,7 @@ exports.createRouters = (app) => {
         
         if (!project.name) {
 
-            erros.message = 'Required name';
+            errors.message = 'Required name';
         }
         else if (project.name.length > 50) {
 

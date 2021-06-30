@@ -14,8 +14,6 @@ $(document).ready(function() {
 
     $('.header .menu-item .new-project').on('click', handleNewProject);
     $('.header .search-bar input').on('keyup', handleFindProject);
-    $('.header .download').on('click', handleDownloadData);
-    $('.header [name="backupFile"]').on('change', handleImportBackup);
     $('.header .btn-options').on('click', handleShowOptions);
 });
 
@@ -121,7 +119,7 @@ function handleNewProject() {
                         </div>
                         <div class="row">
                             <label>Project price</label>
-                            <input name="project-price" type="number">
+                            <input name="project-price" type="number" value="0">
                         </div>
                         <div class="row">
                             <label>Estimated time</label>
@@ -130,7 +128,7 @@ function handleNewProject() {
                         <div class="row error-field"></div>
                     </div>
                     <div class="row btn-footer">
-                        <button class="btn btn-primary">Create</button>
+                        <button class="btn btn-primary" type="submit">Create</button>
                     </div>
                 </form>
             </div>
@@ -192,6 +190,14 @@ async function handleCreateProject(event) {
         const projectDescription = $modal.find('[name="project-description"]').val();
         const projectPrice = $modal.find('[name="project-price"]').val();
         const estimatedTime = $modal.find('[name="project-estimated-time"]').val();
+
+        if (projectPrice === '') {
+
+            $('.background-load').removeClass('show');
+            showErrors({message: 'Project price must contain only numbers'}, $('.modal-new-project .error-field'));
+     
+            return;
+        }
 
         const project = {
             name: projectName,
