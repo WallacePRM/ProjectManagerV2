@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 const url = 'http://localhost:' + port;
 
-app.use(express.static('../app'));
+app.use('/app', express.static('app'));
 app.use(express.json());
 app.use(cors());
 
