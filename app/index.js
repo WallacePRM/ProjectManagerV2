@@ -123,7 +123,7 @@ function handleNewProject() {
                         </div>
                         <div class="row">
                             <label>Estimated time</label>
-                            <input name="project-estimated-time" placeholder="HH:MM" type="text">
+                            <input name="project-estimated-time" placeholder="HHH:MM" type="text">
                         </div>
                         <div class="row error-field"></div>
                     </div>
@@ -137,7 +137,7 @@ function handleNewProject() {
 
     newProject.show();
     
-    $('[name="project-estimated-time"]').mask('00:00');    
+    $('[name="project-estimated-time"]').mask('000:00');    
     $('.modal-new-project .btn').on('click', handleCreateProject);
 }
 
