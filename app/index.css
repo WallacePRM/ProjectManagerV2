@@ -320,6 +320,12 @@ body {
     padding-right: 40px;
 }
 
+.project-item-bottom span {
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .project-item-bottom .time {
     font-size: 1.2rem;
 }
@@ -353,6 +359,9 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .project-name-left:hover {
@@ -444,6 +453,12 @@ body {
     flex-direction: column;
     border-bottom: 1px solid #bbb;
     padding: 10px 30px;
+}
+
+.task-item span {
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .task-time {
@@ -584,7 +599,7 @@ body {
 
 /* ------------------ MOBILE ------------------ */
 
-@media(max-width: 760px) {
+@media(max-width: 1030px) {
 
     .header-top {
         justify-content: center;

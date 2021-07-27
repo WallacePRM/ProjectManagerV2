@@ -19,7 +19,7 @@ CREATE TABLE projects (
 
 CREATE TABLE tasks (
 	id SERIAL PRIMARY KEY, 
-	name VARCHAR(30) NOT NULL,
+	name VARCHAR(100) NOT NULL,
 	
     project_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,

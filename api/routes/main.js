@@ -327,9 +327,9 @@ exports.createRouters = (app) => {
 
             return errors;
         }
-        else if (task.name.length > 30) {
+        else if (task.name.length > 100) {
 
-            errors.message = 'Name must contain a maximum of 30 characters';
+            errors.message = 'Name must contain a maximum of 100 characters';
         }
 
         return errors;
