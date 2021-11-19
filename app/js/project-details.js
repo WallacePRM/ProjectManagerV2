@@ -68,7 +68,6 @@ function ProjectDetails() {
         const $btn = $(event.currentTarget);
 
         try {
-            
             currentProject = (await getProjects(currentProject.id))[0];
         }
         catch(error) {
@@ -109,7 +108,7 @@ function ProjectDetails() {
                                     </div>
                                     <div class="row error-field"></div>
                                 </div>
-                                <div class="row">
+                                <div class="row btn-footer">
                                     <button class="btn btn-primary">Create</button>
                                 </div>
                             </form>
@@ -259,6 +258,11 @@ function ProjectDetails() {
 
                     $project.remove();
                 }
+            }
+
+            if ( $('.project-item').toArray().length === 0) {
+
+                $('.content-left .empty-msg').css('display', 'block');
             }
 
             $('.content-right .btn-close').click()

@@ -32,7 +32,6 @@ async function loadProjects() {
         }
 
        $('.background-load').removeClass('show');
-        
     }
     catch (error) {
 

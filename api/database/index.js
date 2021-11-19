@@ -23,7 +23,7 @@ exports.executeMigration = async () => {
         await knex.raw('SELECT id FROM users LIMIT 1');
     }
     catch(error) {
-
+ 
         if (error.message.indexOf('relation "users" does not exist') === -1) {
 
             return;
