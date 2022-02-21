@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const main = require('./main');
 const session = require('./session');
+const teams = require('./teams');
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 
 main.createRouters(app);
 session.createRouters(app);
+teams.createRouters(app);
 
 exports.startServer = (port, () => {
 

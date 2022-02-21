@@ -23,7 +23,7 @@ exports.executeMigration = async () => {
         await knex.raw('SELECT id FROM users LIMIT 1');
     }
     catch(error) {
- 
+
         if (error.message.indexOf('relation "users" does not exist') === -1) {
 
             return;
@@ -31,6 +31,7 @@ exports.executeMigration = async () => {
 
         const script = fs.readFileSync('./api/database/scripts/migration-20210517.sql', 'utf-8');
         await knex.raw(script);
+        console.log('Migração aplicada');
     }
 };
 
