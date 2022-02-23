@@ -34,7 +34,7 @@ exports.createRouters = (app) => {
             }
 
             await knex.raw('INSERT INTO users (email, password) VALUES (?, ?)', [user.email, user.password]);
-            
+
             res.send({});
         }
         catch(error) {
@@ -61,7 +61,7 @@ exports.createRouters = (app) => {
 
             user.password = Crypto.SHA256(user.password).toString();
 
-            const result = await knex.raw('SELECT id FROM users WHERE ? = email and ? = password', 
+            const result = await knex.raw('SELECT id FROM users WHERE ? = email and ? = password',
             [user.email.toLowerCase(), user.password]);
 
             if (result.rows.length === 0) {
@@ -70,7 +70,7 @@ exports.createRouters = (app) => {
 
                 return;
             }
-        
+
             const token = generateToken(result.rows[0].id);
 
             res.send({token});
@@ -121,7 +121,7 @@ exports.createRouters = (app) => {
                     console.log(error);
 
                     res.status(422).send({error: 'Failed to perform operation'});
-                } 
+                }
                 else {
 
                     res.send({message: 'Email sent'});
@@ -169,7 +169,7 @@ exports.createRouters = (app) => {
 
             return erros;
         }
-        
+
         if (!user.email) {
 
             erros.email = 'Email obrigatório';

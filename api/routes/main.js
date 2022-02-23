@@ -18,9 +18,9 @@ exports.createRouters = (app) => {
             }
 
             const knex = db.getKnex();
-            const userData = getTokenData(req.headers.autorization);
+            const userData = getTokenData(req.headers.Authorization);
 
-            const result = await knex.raw('INSERT INTO projects (name, description, estimated_time, price, user_id) VALUES (?, ?, ?, ?, ?) RETURNING id', 
+            const result = await knex.raw('INSERT INTO projects (name, description, estimated_time, price, user_id) VALUES (?, ?, ?, ?, ?) RETURNING id',
             [ project.name, project.description, project.estimated_time, project.price, userData.user_id]);
 
             res.send({project_id: result.rows[0].id});
@@ -38,7 +38,7 @@ exports.createRouters = (app) => {
         try {
 
             const projectId = parseInt(req.params.id);
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const projects = [];
 
@@ -48,7 +48,7 @@ exports.createRouters = (app) => {
 
                 let result = await knex.raw('SELECT * FROM projects WHERE id = ? AND user_id = ?',
                 [ projectId, userData.user_id ]);
-  
+
                 const project = {
                         id: result.rows[0].id,
                         name: result.rows[0].name,
@@ -57,10 +57,10 @@ exports.createRouters = (app) => {
                         price: result.rows[0].price,
                         tasks: []
                 };
-                
+
                 result = await knex.raw(`SELECT tasks.id AS task_id, name,
                     history.id AS history_id, action, date
-                    FROM tasks 
+                    FROM tasks
                     LEFT JOIN history
                     ON history.task_id = tasks.id
                     WHERE project_id = ? AND user_id = ?
@@ -72,7 +72,7 @@ exports.createRouters = (app) => {
                     let task = project.tasks.find((x) => x.id === result.rows[i].task_id);
 
                     if (!task) {
-                        
+
                         task = {
                             id: result.rows[i].task_id,
                             name: result.rows[i].name,
@@ -83,7 +83,7 @@ exports.createRouters = (app) => {
                     }
 
                     if (result.rows[i].history_id) {
-                        
+
                         task.history.push({
                             id: result.rows[i].history_id,
                             action: result.rows[i].action,
@@ -169,7 +169,7 @@ exports.createRouters = (app) => {
         catch(error) {
 
             console.error(error);
-            
+
             res.status(422).send({message: 'Failed to perform operation'});
         }
     });
@@ -179,9 +179,9 @@ exports.createRouters = (app) => {
         try {
 
             const projectId = parseInt(req.params.id);
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
-            
+
             const knex = db.getKnex();
 
             const result = await knex.raw('SELECT id FROM tasks WHERE project_id = ? AND user_id = ?',
@@ -207,7 +207,7 @@ exports.createRouters = (app) => {
         catch(error) {
 
             console.error(error);
-            
+
             res.status(422).send({message: 'Failed to perform operation'});
         }
     });
@@ -223,9 +223,9 @@ exports.createRouters = (app) => {
 
                 return;
             }
-            
+
             const projectId = parseInt(req.params.project_id);
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
@@ -254,7 +254,7 @@ exports.createRouters = (app) => {
 
             const projectId = parseInt(req.params.project_id);
             const taskId = parseInt(req.params.task_id);
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
@@ -294,7 +294,7 @@ exports.createRouters = (app) => {
 
             return errors;
         }
-        
+
         if (!project.name) {
 
             errors.message = 'Required name';

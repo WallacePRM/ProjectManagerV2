@@ -6,7 +6,7 @@ exports.createRouters = (app) => {
     app.get('/teams', async (req, res) => {
 
         try {
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -46,7 +46,7 @@ exports.createRouters = (app) => {
                 return;
             }
 
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -67,7 +67,7 @@ exports.createRouters = (app) => {
 
         try {
             const id = parseInt(req.params.id);
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -91,7 +91,7 @@ exports.createRouters = (app) => {
         try {
             const team_id = parseInt(req.params.id);
             const { project_id } = req.body;
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -126,7 +126,7 @@ exports.createRouters = (app) => {
 
         try {
             const { team_id, project_id } = req.params;
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -152,7 +152,7 @@ exports.createRouters = (app) => {
         try {
             const team_id = parseInt(req.params.id);
             const { member_id } = req.body;
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
@@ -180,7 +180,7 @@ exports.createRouters = (app) => {
 
         try {
             const { team_id, member_id } = req.params;
-            const token = req.headers.autorization;
+            const token = req.headers.Authorization;
             const userData = getTokenData(token);
             const knex = db.getKnex();
 
