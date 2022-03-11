@@ -18,7 +18,7 @@ exports.createRouters = (app) => {
             }
 
             const knex = db.getKnex();
-            const userData = getTokenData(req.headers.Authorization);
+            const userData = getTokenData(req.headers.authorization);
 
             const result = await knex.raw('INSERT INTO projects (name, description, estimated_time, price, user_id) VALUES (?, ?, ?, ?, ?) RETURNING id',
             [ project.name, project.description, project.estimated_time, project.price, userData.user_id]);
@@ -38,7 +38,7 @@ exports.createRouters = (app) => {
         try {
 
             const projectId = parseInt(req.params.id);
-            const token = req.headers.Authorization;
+            const token = req.headers.authorization;
             const userData = getTokenData(token);
             const projects = [];
 
@@ -50,12 +50,12 @@ exports.createRouters = (app) => {
                 [ projectId, userData.user_id ]);
 
                 const project = {
-                        id: result.rows[0].id,
-                        name: result.rows[0].name,
-                        description: result.rows[0].description,
-                        estimated_time: result.rows[0].estimated_time,
-                        price: result.rows[0].price,
-                        tasks: []
+                    id: result.rows[0].id,
+                    name: result.rows[0].name,
+                    description: result.rows[0].description,
+                    estimated_time: result.rows[0].estimated_time,
+                    price: result.rows[0].price,
+                    tasks: []
                 };
 
                 result = await knex.raw(`SELECT tasks.id AS task_id, name,
@@ -142,11 +142,12 @@ exports.createRouters = (app) => {
 
                     let task = project.tasks.find((x) => x.id === result.rows[i].task_id);
 
-                    if (!task) {
+                    if (!task && result.rows[i].task_id) {
 
                         task = {
                             id: result.rows[i].task_id,
                             name: result.rows[i].task_name,
+                            isDone: false,
                             history: []
                         };
 
@@ -155,6 +156,7 @@ exports.createRouters = (app) => {
 
                     if (result.rows[i].history_id) {
 
+                        task.isDone = result.rows[i].action === 'stop';
                         task.history.push({
                             id: result.rows[i].history_id,
                             action: result.rows[i].action,
@@ -179,7 +181,7 @@ exports.createRouters = (app) => {
         try {
 
             const projectId = parseInt(req.params.id);
-            const token = req.headers.Authorization;
+            const token = req.headers.authorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
@@ -225,7 +227,7 @@ exports.createRouters = (app) => {
             }
 
             const projectId = parseInt(req.params.project_id);
-            const token = req.headers.Authorization;
+            const token = req.headers.authorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
@@ -254,7 +256,7 @@ exports.createRouters = (app) => {
 
             const projectId = parseInt(req.params.project_id);
             const taskId = parseInt(req.params.task_id);
-            const token = req.headers.Authorization;
+            const token = req.headers.authorization;
             const userData = getTokenData(token);
 
             const knex = db.getKnex();
